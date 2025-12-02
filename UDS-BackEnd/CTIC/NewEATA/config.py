@@ -17,11 +17,11 @@ PRODUCTS_TO_CALCULATE = [
 ]
 
 # --- Rutas Locales ---
-OUTPUT_PATH = r'/home/ubuntu/CTIC/NewEATA/GOES_OUTPUT'
-TEMP_DOWNLOAD_PATH = r'/home/ubuntu/CTIC/NewEATA/GOES_TEMP'
+OUTPUT_PATH = r'/home/uds/CTIC/NewEATA/GOES_OUTPUT'
+TEMP_DOWNLOAD_PATH = r'/home/uds/CTIC/NewEATA/GOES_TEMP'
 
 SHAPEFILES = {
-    "peru_land": r"/home/ubuntu/CTIC/Boundaries/PER_adm/PER_adm2.shp"
+    "peru_land": r"/home/uds/CTIC/Boundaries/PER_adm/PER_adm2.shp"
 }
 
 # --- Configuración de Descarga ---

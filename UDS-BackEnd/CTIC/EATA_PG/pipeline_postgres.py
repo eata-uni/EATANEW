@@ -9,10 +9,10 @@ from watchdog.observers import Observer
 from watchdog.events import FileSystemEventHandler
 
 # --- 1. CONFIGURACIÓN (Sin cambios) ---
-RUTA_A_MONITOREAR = r"/home/ubuntu/CTIC/NewEATA/GOES_OUTPUT/vectors"
+RUTA_A_MONITOREAR = r"/home/uds/CTIC/NewEATA/GOES_OUTPUT/vectors"
 DB_USER = "postgres"
 DB_PASSWORD = "nueva_clave"
-DB_HOST = "localhost"
+DB_HOST = "192.168.2.2"
 DB_PORT = "5432"
 DB_NAME = "EATA"
 DB_TABLE = "datos_goes"
