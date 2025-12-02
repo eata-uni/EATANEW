@@ -1,0 +1,21 @@
+{
+  "version": "1.0.0",
+  "name": "db_con",
+  "dependencies": {
+    "cors": {
+      "version": "2.8.5",
+      "resolved": "https://registry.npmjs.org/cors/-/cors-2.8.5.tgz",
+      "overridden": false
+    },
+    "express": {
+      "version": "5.1.0",
+      "resolved": "https://registry.npmjs.org/express/-/express-5.1.0.tgz",
+      "overridden": false
+    },
+    "pg": {
+      "version": "8.16.3",
+      "resolved": "https://registry.npmjs.org/pg/-/pg-8.16.3.tgz",
+      "overridden": false
+    }
+  }
+}
