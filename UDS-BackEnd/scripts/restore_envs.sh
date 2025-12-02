@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-SNAP_BASE="/home/uds/env_snapshots"
+SNAP_BASE="/home/uds"
 SNAP_DIR="${1:-${SNAP_BASE}/latest}"
 
 if [[ ! -d "${SNAP_DIR}" ]]; then
@@ -42,7 +42,7 @@ done
 NODE_SNAP="${SNAP_DIR}/node_project"
 if [[ -d "${NODE_SNAP}" ]]; then
   # Usa el mismo dir del proyecto original (puedes cambiarlo)
-  TARGET_NODE_DIR="/home/ubuntu/DB_CON"
+  TARGET_NODE_DIR="/home/uds/DB_CON"
   mkdir -p "${TARGET_NODE_DIR}"
 
   log "🟢 Restaurando Node en ${TARGET_NODE_DIR}"
