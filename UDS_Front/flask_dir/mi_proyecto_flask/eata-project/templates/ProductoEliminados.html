@@ -1,0 +1,60 @@
+{% comment %} 
+         <div class="row">
+            
+                <div class="header-text-three">
+                    <p class="h4 mt-2">Altura superior de la nube</p>
+                    <div class="header-icon-three">
+                        <img src="{{ url_for('static', filename='img/icon_product_three.png') }}" style="width: 100%;" alt="type3">
+                    </div>
+                    <p class="text-justify mt-2">
+                        
+El "Altura superior de la nube" del GOES-R, con tecnología infrarroja avanzada, mide simultáneamente la altura, temperatura y presión de la cima de las nubes por cada píxel nublado. Este producto es esencial para identificar zonas de crecimiento de nubes y evaluar la probabilidad de precipitaciones, ofreciendo datos cruciales para la comprensión y predicción de patrones meteorológicos y climáticos.</p>
+                    <a href="{{url_for('product', product_name='three')}}" class="btn btn-outline-secondary btn-ms mt-2 header-btn">Ver en tiempo real</a>
+                    <!--<a href="#" class="btn btn-outline-secondary btn-ms mt-2 header-btn">Ver de fechas pasadas</a>-->
+                </div>
+
+                     
+            </div>
+            
+            <div class="col-md-3 mt-5">
+                
+                <div class="header-text-two">
+                    
+                    <p class="h4 mt-2">Vientos de movimiento derivado </p>
+                    <div class="header-icon-two">
+                        <img src="{{ url_for('static', filename='img/icon_product_six.png') }}" style="width: 100%;" alt="type6">
+                    </div>
+                    <p class="text-justify mt-2">
+                        El "Vientos de movimiento derivado - Vapor" (ABI-L2-DMWVF) del GOES, mediante el ABI, mide dirección y velocidad del vapor de agua atmosférico. Detecta patrones de circulación y humedad, crucial para pronosticar lluvias y tormentas en Perú. Esta información es vital para la agricultura, gestión hídrica y preparación ante desastres, contribuyendo a una comprensión más profunda de la meteorología regional.</p>
+                    <a href="{{url_for('product', product_name='six')}}" class="btn btn-outline-secondary btn-ms mt-2 header-btn">Ver en tiempo real</a>
+                    <!--<a href="#" class="btn btn-outline-secondary btn-ms mt-2 header-btn">Ver de fechas pasadas</a>-->
+                </div>
+            </div>
+            <div class="col-md-3 mt-5">
+                <div class="header-text-four">
+                    <p class="h4 mt-2">Temperatura superior de las nubes</p>
+                    <div class="header-icon-four">
+                        <img src="{{ url_for('static', filename='img/icon_product_four.png') }}" style="width: 100%;" alt="type4">
+                    </div>
+                    <p class="text-justify mt-2">
+                        
+                        El producto "Temperatura superior de las nubes" del GOES-R utiliza sensores infrarrojos del ABI para medir la radiación térmica de las nubes, transformándola en datos de temperatura. Mediante correcciones atmosféricas y algoritmos precisos, proporciona mediciones cruciales para evaluar tormentas y pronosticar el clima, siendo una herramienta clave para la planificación y gestión de emergencias meteorológicas en Perú.</p>
+                    <a href="{{url_for('product', product_name='four')}}" class="btn btn-outline-secondary btn-ms mt-2 header-btn">Ver en tiempo real</a>
+                    <!--<a href="#" class="btn btn-outline-secondary btn-ms mt-2 header-btn">Ver de fechas pasadas</a>-->
+                </div>
+               
+            </div>
+            <div class="col-md-3 mt-5">
+                
+                <div class="header-text-four product-container">
+                    <p class="h4 mt-2">Fase superior de la nube</p>
+                    <div class="header-icon-four">
+                        <img src="{{ url_for('static', filename='img/icon_product_eight.png') }}" style="width: 100%;" alt="type8">
+                    </div>
+                    <p class="text-justify mt-2">El producto utiliza cuatro bandas espectrales infrarrojas del GOES-R ABI para determinar cuatro fases diferentes de la nube: agua líquida tibia, agua líquida superenfriada, mixta y hielo. Permite a los meteorólogos monitorear y rastrear mejor los cambios en las propiedades del agua de las nubes, mejorar los pronósticos de formación de hielo y ayudar a mejorar las advertencias de clima severo.</p>
+                    <a href="{{url_for('product', product_name='eight')}}" class="btn btn-outline-secondary btn-ms mt-2 header-btn">Ver en tiempo real</a>
+                    <!--<a href="#" class="btn btn-outline-secondary btn-ms mt-2 header-btn">Ver de fechas pasadas</a>-->
+                </div>
+            </div>
+        </div> 
+        {% endcomment %}

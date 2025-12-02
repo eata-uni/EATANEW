@@ -1,0 +1,726 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Geovisor Atmosférico Avanzado</title>
+    
+    <!-- Cargar la API de ArcGIS y sus estilos -->
+    <link rel="stylesheet" href="https://js.arcgis.com/4.29/esri/themes/light/main.css">
+    <script src="https://js.arcgis.com/4.29/"></script>
+
+    <!-- Estilos personalizados para el geovisor (Profesional) -->
+    <style>
+        html, body {
+            padding: 0;
+            margin: 0;
+            height: 100%;
+            width: 100%;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow: hidden; /* Evitar scrollbars en la página principal */
+        }
+        #geovisor-container {
+            height: 100vh;
+            display: flex;
+            position: relative;
+        }
+        #panel-controles {
+            width: 350px;
+            background: #2c3e50;
+            color: white;
+            padding: 20px;
+            box-shadow: 4px 0 15px rgba(0,0,0,0.2);
+            overflow-y: auto;
+            z-index: 10;
+        }
+        #panel-controles h4 {
+            color: #ffffff;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+        #viewDiv {
+            flex-grow: 1;
+            height: 100%;
+            position: relative;
+        }
+        #loading-indicator {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 1000;
+            background: rgba(44, 62, 80, 0.9);
+            color: white;
+            padding: 20px 30px;
+            border-radius: 12px;
+            display: none;
+            text-align: center;
+        }
+        .info-panel, .date-info, .legend-container, #widgets-container > div {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+        .control-group { margin-bottom: 20px; }
+        .control-group label { font-weight: 600; margin-bottom: 8px; display: block; }
+        .form-select {
+            background: rgba(255,255,255,0.9);
+            border: 1px solid rgba(0,0,0,0.2);
+            border-radius: 6px; 
+            color: #333; 
+            font-weight: 500;
+            width: 100%;
+            padding: 8px;
+        }
+        .btn-custom {
+            background-color: #17a2b8; 
+            border: none; 
+            color: white;
+            padding: 8px 16px; 
+            border-radius: 8px; 
+            font-weight: 600;
+            transition: all 0.3s ease; 
+            cursor: pointer;
+            width: 100%;
+        }
+        .btn-custom:hover { background-color: #138996; }
+        .view-controls { display: flex; gap: 10px; margin-bottom: 20px; }
+        .view-btn {
+            flex: 1; 
+            padding: 10px; 
+            background: rgba(255,255,255,0.15);
+            border: 1px solid rgba(255,255,255,0.3); 
+            color: white;
+            border-radius: 8px; 
+            cursor: pointer; 
+            transition: all 0.3s ease; 
+            font-weight: 600;
+        }
+        .view-btn.active { background: #17a2b8; border-color: #17a2b8; }
+        .gradient-bar {
+            height: 15px; 
+            border-radius: 5px; 
+            margin-bottom: 5px;
+            background: linear-gradient(to right, 
+                rgba(30, 144, 255, 0.8) 10%, 
+                rgba(0, 255, 255, 0.85) 35%, 
+                rgba(50, 205, 50, 0.85) 55%, 
+                rgba(255, 255, 0, 0.88) 75%, 
+                rgba(255, 165, 0, 0.9) 90%, 
+                rgba(255, 40, 0, 0.95) 100%);
+        }
+        .legend-labels { 
+            display: flex; 
+            justify-content: space-between; 
+            color: #fff; 
+            opacity: 0.8; 
+            font-size: 12px;
+        }
+        #timeSliderContainer {
+            position: absolute;
+            bottom: 25px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60%;
+            max-width: 700px;
+            z-index: 50;
+        }
+        .esri-time-slider__layout {
+            background: rgba(0,0,0,0.85) !important;
+            backdrop-filter: blur(15px) !important;
+            border-radius: 15px !important;
+            padding: 12px 20px !important;
+            border: 1px solid rgba(255,255,255,0.3) !important;
+        }
+        .demo-alert {
+            background: rgba(255, 193, 7, 0.2);
+            color: #ffc107;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            font-size: 12px;
+            text-align: center;
+            border: 1px solid rgba(255, 193, 7, 0.5);
+        }
+    </style>
+</head>
+<body>
+    <div id="geovisor-container">
+        <div id="panel-controles">
+            <h4>🛰️ Control Atmosférico</h4>
+            
+            <div id="data-source-alert" class="demo-alert" style="display:none;"></div>
+            
+            <div class="control-group">
+                <label for="producto-select">1. Seleccionar Producto:</label>
+                <select id="producto-select" class="form-select">
+                    <option value="" selected>-- Elija un producto --</option>
+                    <option value="ACHAF">ACHAF - Altura de Nubes</option>
+                    <option value="ACHTF">ACHTF - Temperatura de Nubes</option>
+                    <option value="LSTF">LSTF - Temperatura de Superficie</option>
+                    <option value="RRQPEF">RRQPEF - Precipitación</option>
+                    <option value="TPWF">TPWF - Agua Precipitable</option>
+                </select>
+            </div>
+
+            <div class="control-group">
+                <label>2. Modo de Vista:</label>
+                <div class="view-controls">
+                    <button id="view-2d" class="view-btn active">📍 2D</button>
+                    <button id="view-3d" class="view-btn">🌍 3D</button>
+                </div>
+            </div>
+
+            <div class="control-group">
+                <label for="basemap-select">3. Mapa Base:</label>
+                <select id="basemap-select" class="form-select">
+                    <option value="satellite">🛰️ Satelital</option>
+                    <option value="hybrid">🗺️ Híbrido</option>
+                    <option value="dark-gray-vector">🌙 Oscuro</option>
+                    <option value="streets-navigation-vector">🛣️ Calles</option>
+                    <option value="terrain">⛰️ Terreno</option>
+                </select>
+            </div>
+
+            <div class="info-panel">
+                <strong>💡 Información:</strong><br>
+                El sistema intentará conectar a la API real. Si falla, se usarán datos de demostración.
+                <br><br>
+                <button id="test-api" class="btn-custom">🔗 Probar Conexión API</button>
+            </div>
+
+            <div class="control-group">
+                <label>4. Configuración Avanzada:</label>
+                <div style="margin-bottom: 10px;">
+                    <label style="font-size: 12px; font-weight: normal;">
+                        <input type="checkbox" id="auto-refresh" style="margin-right: 5px;">
+                        Auto-actualizar datos (cada 30s)
+                    </label>
+                </div>
+                
+            </div>
+
+            <div class="date-info" id="date-info" style="display: none;">
+                <strong>📅 Rango temporal:</strong> <span id="fecha-range">-</span><br>
+                <strong>🕐 Fecha seleccionada:</strong> <span id="fecha-actual">-</span><br>
+                <div style="margin-top: 10px; padding-top: 10px; border-top: 1px solid rgba(255,255,255,0.2);">
+                    <strong>📊 Estadísticas:</strong>
+                    <div id="stats-info" style="font-size: 12px; margin-top: 5px;">
+                        <div>Puntos: <span id="points-count">-</span></div>
+                        <div>Mínimo: <span id="value-min">-</span></div>
+                        <div>Máximo: <span id="value-max">-</span></div>
+                        <div>Promedio: <span id="value-avg">-</span></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="legend-container" id="custom-legend" style="display: none;">
+                <h5 style="margin-top: 0; color: white;">📊 Leyenda</h5>
+                <div id="category-legend"></div>
+            </div>
+
+            <div class="progress-bar-container" style="margin-top: 10px; display: none;" id="progress-container">
+                <div class="progress-bar" id="progress-bar"></div>
+                <div style="text-align: center; font-size: 12px; margin-top: 5px;">
+                    <span id="progress-text">0%</span>
+                </div>
+            </div>
+        </div>
+
+        <div id="viewDiv">
+            <div id="loading-indicator">
+                <div id="loading-message">⏳ Cargando datos...</div>
+                <div style="font-size: 12px; margin-top: 8px; opacity: 0.8;" id="loading-details">Inicializando...</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        require([
+            "esri/Map",
+            "esri/views/MapView",
+            "esri/views/SceneView",
+            "esri/layers/FeatureLayer",
+            "esri/layers/GroupLayer",
+            "esri/renderers/HeatmapRenderer",
+            "esri/widgets/TimeSlider",
+            "esri/widgets/LayerList",
+            "esri/widgets/Zoom",
+            "esri/widgets/Compass",
+            "esri/widgets/NavigationToggle",
+            "esri/core/reactiveUtils",
+            "esri/TimeExtent",
+            "esri/Graphic"
+        ], function(
+            EsriMap, MapView, SceneView, FeatureLayer, GroupLayer, HeatmapRenderer,
+            TimeSlider, LayerList, Zoom, Compass, NavigationToggle,
+            reactiveUtils, TimeExtent, Graphic
+        ) {
+            
+            const API_BASE_URL = "http://localhost:3000/api";
+            let debounceTimer = null;
+            let timeSlider = null;
+            let currentProduct = null;
+            let availableDates = [];
+            let currentView = null;
+            let is3D = false;
+            let datosLayer = null;
+            let autoRefreshInterval = null;
+            let currentHeatIntensity = 1;
+            let currentHeatRadius = 25;
+            let usingDemoData = false;
+
+            const PRODUCT_CONFIG = {
+                'ACHAF': { range: [0, 20000], units: 'm', name: 'Altura de Nubes' },
+                'ACHTF': { range: [-80, 40], units: '°C', name: 'Temperatura de Nubes' },
+                'LSTF': { range: [-20, 60], units: '°C', name: 'Temperatura de Superficie' },
+                'RRQPEF': { range: [0, 100], units: 'mm/h', name: 'Precipitación' },
+                'TPWF': { range: [0, 70], units: 'mm', name: 'Agua Precipitable' }
+            };
+            const ZOOM_HEATMAP_CONFIG = {
+                4: { radius: 1, densityMultiplier: 0.15 },
+                5: { radius: 2, densityMultiplier: 0.65 },
+                6: { radius: 6, densityMultiplier: 3.2 },
+                7: { radius: 9, densityMultiplier: 9 },
+                8: { radius: 18, densityMultiplier: 45 },
+                9: { radius: 38, densityMultiplier: 150 },
+                10: { radius: 80, densityMultiplier: 800 },
+                11: { radius: 160, densityMultiplier: 3000 },
+                12: { radius: 320, densityMultiplier: 11250 },
+                13: { radius: 640, densityMultiplier: 51187 },
+                14: { radius: 1280, densityMultiplier: 250000 }
+            };
+            // Referencias a elementos del DOM
+            const productoSelect = document.getElementById("producto-select");
+            const basemapSelect = document.getElementById("basemap-select");
+            const view2DBtn = document.getElementById("view-2d");
+            const view3DBtn = document.getElementById("view-3d");
+            const loadingIndicator = document.getElementById("loading-indicator");
+            const loadingMessage = document.getElementById("loading-message");
+            const loadingDetails = document.getElementById("loading-details");
+            const dateInfo = document.getElementById("date-info");
+            const fechaRange = document.getElementById("fecha-range");
+            const fechaActual = document.getElementById("fecha-actual");
+            const customLegend = document.getElementById("custom-legend");
+            const categoryLegend = document.getElementById("category-legend");
+            const autoRefreshCheckbox = document.getElementById("auto-refresh");
+            //const heatIntensitySlider = document.getElementById("heat-intensity");
+            //const heatRadiusSlider = document.getElementById("heat-radius");
+            const dataSourceAlert = document.getElementById("data-source-alert");
+            const progressContainer = document.getElementById("progress-container");
+            const progressBar = document.getElementById("progress-bar");
+            const progressText = document.getElementById("progress-text");
+
+            const map = new EsriMap({ basemap: "satellite" });
+
+            currentView = new MapView({
+                container: "viewDiv",
+                map: map,
+                center: [-75, -9], // Perú
+                zoom: 4,
+                constraints: {
+                minZoom: 4 // No se puede alejar más de este nivel
+            }
+            });
+            reactiveUtils.watch(
+            () => currentView.zoom,
+            (z) => {
+                // El zoom puede ser decimal (por ejemplo 6.47); redondeamos al entero más próximo
+                const zInt = Math.round(z);
+                const cfg = ZOOM_HEATMAP_CONFIG[zInt];
+                if (!cfg) return;            // Si no tenemos tabla para ese zoom, ignoramos
+                currentHeatIntensity = cfg.densityMultiplier;
+                currentHeatRadius     = cfg.radius;
+                updateHeatmapRenderer();
+            }
+            );
+            datosLayer = new FeatureLayer({
+                title: "Datos Atmosféricos",
+                source: [],
+                objectIdField: "objectid",
+                geometryType: "point",
+                spatialReference: { wkid: 4326 },
+                fields: [
+                    { name: "objectid", type: "oid" },
+                    { name: "value", type: "double" },
+                    { name: "weight", type: "double" },
+                    { name: "fecha_muestra", type: "date" }
+                ],
+                timeInfo: { startField: "fecha_muestra" }
+            });
+            map.add(new GroupLayer({ title: "Datos EATA", layers: [datosLayer] }));
+
+            currentView.ui.add([ new Compass({ view: currentView })], "top-left");
+
+            function showLoading(message, details = "") {
+                loadingMessage.textContent = message;
+                loadingDetails.textContent = details;
+                loadingIndicator.style.display = 'block';
+            }
+            function hideLoading() { loadingIndicator.style.display = 'none'; }
+            function roundToTwoDecimals(value) { return Math.round(value * 100) / 100; }
+            function formatDate(date) {
+                return date.toLocaleDateString('es-ES', {
+                    year: 'numeric', month: '2-digit', day: '2-digit',
+                    hour: '2-digit', minute: '2-digit'
+                });
+            }
+            function formatDateForAPI(date) {
+                const pad = (num) => num.toString().padStart(2, '0');
+                return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())} ${pad(date.getHours())}:${pad(date.getMinutes())}:${pad(date.getSeconds())}`;
+            }
+            
+            function updateDataSourceAlert() {
+                if(usingDemoData) {
+                    dataSourceAlert.textContent = "⚠️ Usando datos de demostración";
+                    dataSourceAlert.style.display = 'block';
+                } else {
+                    dataSourceAlert.textContent = "✔️ Conectado a API real";
+                    dataSourceAlert.style.display = 'block';
+                }
+            }
+
+            function updateStats(values) {
+                if (!values || values.length === 0) {
+                    document.getElementById('points-count').textContent = '0';
+                    document.getElementById('value-min').textContent = '-';
+                    document.getElementById('value-max').textContent = '-';
+                    document.getElementById('value-avg').textContent = '-';
+                    return;
+                }
+                
+                // Calcular estadísticas
+                const min = Math.min(...values);
+                const max = Math.max(...values);
+                const sum = values.reduce((a, b) => a + b, 0);
+                const avg = sum / values.length;
+                const units = PRODUCT_CONFIG[currentProduct]?.units || '';
+                
+                // Actualizar UI
+                document.getElementById('points-count').textContent = values.length;
+                document.getElementById('value-min').textContent = `${roundToTwoDecimals(min)} ${units}`;
+                document.getElementById('value-max').textContent = `${roundToTwoDecimals(max)} ${units}`;
+                document.getElementById('value-avg').textContent = `${roundToTwoDecimals(avg)} ${units}`;
+            }
+
+            function createHeatmapRenderer(producto) {
+                const config = PRODUCT_CONFIG[producto];
+                if (!config) return null;
+                let fieldName = "value";
+                let maxDensity = config.range[1];
+                if (config.range[0] < 0) {
+                    fieldName = "weight";
+                    maxDensity = config.range[1] - config.range[0];
+                }
+                const colorStops = [
+                    { color: "rgba(0, 0, 0, 0)", ratio: 0 },
+                    { color: "rgba(30, 144, 255, 0.8)", ratio: 0.1 },
+                    { color: "rgba(0, 255, 255, 0.85)", ratio: 0.35 },
+                    { color: "rgba(50, 205, 50, 0.85)", ratio: 0.55 },
+                    { color: "rgba(255, 255, 0, 0.88)", ratio: 0.75 },
+                    { color: "rgba(255, 165, 0, 0.9)", ratio: 0.9 },
+                    { color: "rgba(255, 40, 0, 0.95)", ratio: 1 }
+                ];
+                return new HeatmapRenderer({
+                    field: fieldName,
+                    colorStops: colorStops,
+                    maxDensity: maxDensity * 0.8 / currentHeatIntensity,
+                    radius: currentHeatRadius
+                });
+            }
+
+            function updateHeatmapRenderer() {
+                if (!datosLayer.renderer || datosLayer.renderer.type !== 'heatmap' || !currentProduct) return;
+                const config = PRODUCT_CONFIG[currentProduct];
+                if (!config) return;
+                let maxDensity = config.range[1];
+                if (config.range[0] < 0) maxDensity = config.range[1] - config.range[0];
+                const newRenderer = datosLayer.renderer.clone();
+                newRenderer.maxDensity = maxDensity * 0.8 / currentHeatIntensity;
+                newRenderer.radius = currentHeatRadius;
+                datosLayer.renderer = newRenderer;
+            }
+
+            function updateLegend(producto) {
+                const config = PRODUCT_CONFIG[producto];
+                if (!config) { customLegend.style.display = 'none'; return; }
+                categoryLegend.innerHTML = `
+                    <div class="gradient-legend">
+                        <div style="font-weight: bold; margin-bottom: 8px; color: white;">${config.name}</div>
+                        <div class="gradient-bar"></div>
+                        <div class="legend-labels">
+                            <span>${config.range[0]} ${config.units}</span>
+                            <span>${config.range[1]} ${config.units}</span>
+                        </div>
+                    </div>`;
+                customLegend.style.display = 'block';
+            }
+
+            // --- LÓGICA DE DATOS ---
+
+            async function loadRealData(producto) {
+                availableDates = await loadAvailableDates(producto);
+                if (availableDates.length > 0) {
+                    usingDemoData = false;
+                    crearTimeSlider(availableDates, producto);
+                    const latestDate = availableDates[availableDates.length - 1];
+                    await loadDataForTimestamp(producto, latestDate);
+                } else {
+                    // Si no hay fechas, lanza un error para activar el fallback a demo
+                    throw new Error("No se encontraron fechas disponibles en la API.");
+                }
+            }
+
+            async function loadAvailableDates(producto) {
+                showLoading("Cargando fechas disponibles...", "Consultando API...");
+                const url = `${API_BASE_URL}/fechas?producto=${producto}`;
+                try {
+                    const response = await fetch(url, { method: 'GET', mode: 'cors' });
+                    if (!response.ok) throw new Error(`Error HTTP: ${response.status}`);
+                    const fechas = await response.json();
+                    if (!Array.isArray(fechas) || fechas.length === 0) throw new Error("La API no devolvió fechas.");
+                    const fechasDate = fechas.map(f => new Date(f)).filter(date => !isNaN(date.getTime())).sort((a, b) => a - b);
+                    if (fechasDate.length === 0) throw new Error("No se procesaron las fechas recibidas.");
+                    fechaRange.textContent = `${formatDate(fechasDate[0])} a ${formatDate(fechasDate[fechasDate.length - 1])}`;
+                    dateInfo.style.display = 'block';
+                    return fechasDate;
+                } catch (error) {
+                    console.error("Error al cargar fechas:", error);
+                    return []; // Devuelve vacío para que el flujo principal sepa que falló
+                } finally {
+                    hideLoading();
+                }
+            }
+
+            async function loadDataForTimestamp(producto, fecha) {
+                if (usingDemoData) return;
+                showLoading("Cargando datos...", `Fecha: ${formatDate(fecha)}`);
+                
+                const fechaFormateada = formatDateForAPI(fecha);
+                const url = `${API_BASE_URL}/datos?producto=${producto}&fecha=${encodeURIComponent(fechaFormateada)}`;
+                
+                try {
+                    const response = await fetch(url, { method: 'GET', mode: 'cors' });
+                    if (!response.ok) throw new Error(`Error HTTP: ${response.status}`);
+                    
+                    const geoJsonData = await response.json();
+                    if (!geoJsonData || !Array.isArray(geoJsonData.features)) {
+                        throw new Error("Formato de datos inválido.");
+                    }
+                    
+                    // Mostrar progreso
+                    progressContainer.style.display = 'block';
+                    progressBar.style.width = '0%';
+                    progressText.textContent = '0%';
+                    
+                    // Eliminar datos existentes
+                    const existingFeatures = await datosLayer.queryFeatures();
+                    await datosLayer.applyEdits({ deleteFeatures: existingFeatures.features });
+                    
+                    // Procesar por lotes
+                    const batchSize = 2000;
+                    const totalBatches = Math.ceil(geoJsonData.features.length / batchSize);
+                    const config = PRODUCT_CONFIG[producto];
+                    
+                    let processedCount = 0;
+                    let allValues = []; // Almacenar todos los valores para stats
+                    
+                    for (let i = 0; i < totalBatches; i++) {
+                        const start = i * batchSize;
+                        const end = Math.min(start + batchSize, geoJsonData.features.length);
+                        const batch = geoJsonData.features.slice(start, end);
+                        
+                        const newFeatures = batch.map((feature, index) => {
+                            // Asegurar que existe el valor
+                            const valor = feature.properties.value !== undefined ? 
+                                roundToTwoDecimals(feature.properties.value) : 0;
+                            
+                            let weightValor = valor;
+                            if (config && config.range[0] < 0) {
+                                weightValor = roundToTwoDecimals(valor - config.range[0]);
+                            }
+                            
+                            // Guardar valor para estadísticas
+                            allValues.push(valor);
+                            
+                            return new Graphic({
+                                geometry: { 
+                                    type: "point", 
+                                    x: feature.geometry.coordinates[0], 
+                                    y: feature.geometry.coordinates[1] 
+                                },
+                                attributes: { 
+                                    objectid: start + index + 1, 
+                                    value: valor, 
+                                    weight: weightValor, 
+                                    fecha_muestra: new Date(feature.properties.fecha_muestra).getTime() 
+                                }
+                            });
+                        });
+                        
+                        await datosLayer.applyEdits({ addFeatures: newFeatures });
+                        processedCount += batch.length;
+                        
+                        // Actualizar progreso
+                        const progress = Math.round((processedCount / geoJsonData.features.length) * 100);
+                        progressBar.style.width = `${progress}%`;
+                        progressText.textContent = `${progress}%`;
+                        
+                        // Pequeña pausa para evitar bloqueo de UI
+                        await new Promise(resolve => setTimeout(resolve, 30));
+                    }
+                    
+                    // Actualizar estadísticas con todos los valores recolectados
+                    updateStats(allValues);
+                } catch (error) {
+                    console.error("Error al cargar datos:", error);
+                    alert(`Error: ${error.message}`);
+                    updateStats([]);
+                } finally {
+                    hideLoading();
+                    setTimeout(() => {
+                        progressContainer.style.display = 'none';
+                    }, 1000);
+                }
+            }
+
+            function generateDemoData(producto) {
+                usingDemoData = true;
+                showLoading("Generando datos de demostración...");
+                const config = PRODUCT_CONFIG[producto];
+                const features = [];
+                const now = new Date();
+                const peruBounds = { minLat: -18.5, maxLat: -0.5, minLng: -81.5, maxLng: -68.5 };
+                for (let i = 0; i < 500; i++) {
+                    const lat = peruBounds.minLat + Math.random() * (peruBounds.maxLat - peruBounds.minLat);
+                    const lng = peruBounds.minLng + Math.random() * (peruBounds.maxLng - peruBounds.minLng);
+                    let value = config.range[0] + Math.random() * (config.range[1] - config.range[0]);
+                    value = roundToTwoDecimals(value);
+                    let weight = value;
+                    if (config.range[0] < 0) weight = value - config.range[0];
+                    features.push(new Graphic({
+                        geometry: { type: "point", x: lng, y: lat },
+                        attributes: { objectid: i + 1, value: value, weight: weight, fecha_muestra: now.getTime() }
+                    }));
+                }
+                const fechas = Array.from({length: 24}, (_, i) => new Date(now.getTime() - i * 3600000)).sort((a, b) => a - b);
+                availableDates = fechas;
+                fechaRange.textContent = `${formatDate(fechas[0])} a ${formatDate(fechas[fechas.length - 1])}`;
+                dateInfo.style.display = 'block';
+                datosLayer.applyEdits({ addFeatures: features, deleteFeatures: datosLayer.source.toArray() });
+                updateStats(features);
+                crearTimeSlider(fechas, producto);
+                hideLoading();
+            }
+
+            function crearTimeSlider(fechas, producto) {
+                if (timeSlider) timeSlider.destroy();
+                document.getElementById("timeSliderContainer")?.remove();
+                const sliderContainer = document.createElement("div");
+                sliderContainer.id = "timeSliderContainer";
+                currentView.container.appendChild(sliderContainer);
+                timeSlider = new TimeSlider({
+                    container: sliderContainer, view: currentView,
+                    fullTimeExtent: { start: fechas[0], end: fechas[fechas.length - 1] },
+                    timeExtent: { start: fechas[fechas.length - 1], end: fechas[fechas.length - 1] },
+                    mode: "instant", stops: { dates: fechas }, playRate: 1000, loop: true
+                });
+                let lastTime = null;
+                reactiveUtils.watch(() => timeSlider.timeExtent, (timeExtent) => {
+                    if (!timeExtent || !currentProduct) return;
+                    const currentTime = timeExtent.end;
+                    if (lastTime && currentTime.getTime() === lastTime.getTime()) return;
+                    lastTime = currentTime;
+                    fechaActual.textContent = formatDate(currentTime);
+                    if (debounceTimer) clearTimeout(debounceTimer);
+                    debounceTimer = setTimeout(() => loadDataForTimestamp(currentProduct, currentTime), 300);
+                });
+            }
+
+            async function updateProduct(producto) {
+                currentProduct = producto;
+                if (timeSlider) timeSlider.destroy();
+                dateInfo.style.display = 'none';
+                customLegend.style.display = 'none';
+                try {
+                    await datosLayer.applyEdits({ deleteFeatures: datosLayer.source.toArray() });
+                } catch (e) { console.error("Error limpiando capa", e); }
+                if (!producto) {
+                    datosLayer.renderer = null;
+                    dataSourceAlert.style.display = 'none';
+                    return;
+                }
+                datosLayer.renderer = createHeatmapRenderer(producto);
+                updateLegend(producto);
+                try {
+                    await loadRealData(producto);
+                } catch (error) {
+                    console.log("Fallo al cargar datos reales, usando demo.", error.message);
+                    if (confirm("No se pudieron cargar datos reales. ¿Desea usar datos de demostración?")) {
+                        generateDemoData(producto);
+                    }
+                }
+                updateDataSourceAlert();
+            }
+
+            // --- INICIALIZACIÓN Y EVENT LISTENERS ---
+            
+            productoSelect.addEventListener("change", (e) => updateProduct(e.target.value));
+            basemapSelect.addEventListener("change", (e) => { map.basemap = e.target.value; });
+            view2DBtn.addEventListener("click", () => switchView(false));
+            view3DBtn.addEventListener("click", () => switchView(true));
+            autoRefreshCheckbox.addEventListener("change", (e) => { /* Lógica de auto-refresh aquí */ });
+            heatIntensitySlider.addEventListener("input", (e) => {
+                currentHeatIntensity = parseFloat(e.target.value);
+                updateHeatmapRenderer();
+            });
+            heatRadiusSlider.addEventListener("input", (e) => {
+                currentHeatRadius = parseInt(e.target.value, 10);
+                updateHeatmapRenderer();
+            });
+            document.getElementById("test-api").addEventListener("click", async () => {
+                showLoading("Probando conexión API...");
+                try {
+                    const response = await fetch(`${API_BASE_URL}/fechas?producto=ACHAF`, { method: 'GET', mode: 'cors' });
+                    if (response.ok) alert("✅ API funcionando correctamente.");
+                    else alert(`❌ API respondió con error: ${response.status}`);
+                } catch (error) { alert(`❌ Error de conexión/CORS: ${error.message}`); } 
+                finally { hideLoading(); }
+            });
+
+            async function switchView(to3D) {
+                if ((to3D && is3D) || (!to3D && !is3D)) return;
+                showLoading(to3D ? "Activando modo 3D" : "Activando modo 2D");
+                const oldCenter = currentView.center;
+                const oldZoom = currentView.zoom;
+                if (timeSlider) timeSlider.destroy();
+                currentView.container = null;
+                if (to3D) {
+                    currentView = new SceneView({ container: "viewDiv", map: map, center: oldCenter, zoom: oldZoom });
+                    
+                } else {
+                    currentView = new MapView({ container: "viewDiv", map: map, center: oldCenter, zoom: oldZoom, constraints: { minZoom: 3, maxZoom: 18 }});
+                }
+                await currentView.when();
+                
+                new LayerList({ view: currentView, container: "layerlist-container" });
+                if (currentProduct && availableDates.length > 0) crearTimeSlider(availableDates, currentProduct);
+                is3D = to3D;
+                view2DBtn.classList.toggle('active', !to3D);
+                view3DBtn.classList.toggle('active', to3D);
+                hideLoading();
+            }
+
+            currentView.when(() => {
+                new LayerList({ view: currentView, container: "layerlist-container" });
+                console.log("🛰️ Geovisor Atmosférico Avanzado inicializado.");
+                showLoading("Listo", "Seleccione un producto para comenzar");
+                setTimeout(hideLoading, 1500);
+            });
+        });
+    </script>
+</body>
+</html>

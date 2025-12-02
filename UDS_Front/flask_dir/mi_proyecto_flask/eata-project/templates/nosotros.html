@@ -1,0 +1,1567 @@
+{% extends 'base.html' %}
+{% block title %}Nosotros - EATA{% endblock %}
+
+{% block links %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css">
+<style>
+    /* Hero Section Styles */
+    .hero-section {
+        padding: 8rem 0 6rem;
+        background: linear-gradient(135deg, rgba(44, 90, 160, 0.02) 0%, rgba(136, 164, 188, 0.02) 100%);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .hero-section::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 20"><defs><pattern id="grain" width="100" height="20" patternUnits="userSpaceOnUse"><circle cx="10" cy="5" r="0.5" fill="%23e9ecef" opacity="0.3"/><circle cx="30" cy="15" r="0.3" fill="%23dee2e6" opacity="0.4"/><circle cx="70" cy="8" r="0.4" fill="%23e9ecef" opacity="0.2"/></pattern></defs><rect width="100" height="20" fill="url(%23grain)"/></svg>');
+        pointer-events: none;
+    }
+
+    .hero-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        background: rgba(44, 90, 160, 0.1);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(44, 90, 160, 0.2);
+        border-radius: 50px;
+        padding: 0.5rem 1rem;
+        margin-bottom: 2rem;
+        font-size: 0.9rem;
+        font-weight: 500;
+        color: var(--primary-color);
+    }
+
+    .badge-icon {
+        font-size: 1rem;
+    }
+
+    .hero-title {
+        font-size: clamp(2.5rem, 5vw, 3.5rem);
+        font-weight: 700;
+        line-height: 1.2;
+        margin-bottom: 1.5rem;
+        color: var(--text-dark);
+    }
+
+    .text-gradient {
+        background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+
+    .hero-description {
+        font-size: 1.1rem;
+        line-height: 1.7;
+        color: var(--text-light);
+        margin-bottom: 3rem;
+    }
+
+    .hero-stats {
+        display: flex;
+        justify-content: center;
+        gap: 3rem;
+        flex-wrap: wrap;
+    }
+
+    .stat-item {
+        text-align: center;
+    }
+
+    .stat-number {
+        display: block;
+        font-size: 2rem;
+        font-weight: 700;
+        color: var(--primary-color);
+        line-height: 1;
+    }
+
+    .stat-label {
+        font-size: 0.9rem;
+        color: var(--text-light);
+        font-weight: 500;
+    }
+
+    /* Section Header */
+    .section-header {
+        margin-bottom: 4rem;
+    }
+
+    .section-badge {
+        display: inline-block;
+        background: var(--primary-color);
+        color: white;
+        padding: 0.5rem 1rem;
+        border-radius: 50px;
+        font-size: 0.9rem;
+        font-weight: 500;
+        margin-bottom: 1rem;
+    }
+
+    .section-title {
+        font-size: clamp(2rem, 4vw, 2.5rem);
+        font-weight: 700;
+        margin-bottom: 1rem;
+        color: var(--text-dark);
+    }
+
+    .section-description {
+        font-size: 1.1rem;
+        color: var(--text-light);
+        line-height: 1.6;
+    }
+
+    /* Team Cards 3D Effect */
+    .team-container {
+        perspective: 1000px;
+    }
+
+    .team-card {
+        height: 500px;
+        margin: 0 10px;
+    }
+
+    .card-inner {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        text-align: center;
+        transition: transform 0.8s;
+        transform-style: preserve-3d;
+        cursor: pointer;
+    }
+
+    .team-card:hover .card-inner {
+        transform: rotateY(180deg);
+    }
+
+    .card-front, .card-back {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        backface-visibility: hidden;
+        border-radius: var(--border-radius-lg);
+        background: var(--bg-white);
+        box-shadow: var(--shadow-md);
+        overflow: hidden;
+        border: 1px solid var(--border-color);
+    }
+
+    .card-back {
+        transform: rotateY(180deg);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 2rem;
+        background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+        color: white;
+    }
+
+   .member-image {
+    position: relative;
+    height: 350px; /* o más */
+    overflow: hidden;
+}
+
+    .member-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.3s ease;
+    }
+
+    .image-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(44, 90, 160, 0.8);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+
+    .team-card:hover .image-overlay {
+        opacity: 1;
+    }
+
+    .social-links a {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 50px;
+        height: 50px;
+        background: white;
+        color: var(--primary-color);
+        border-radius: 50%;
+        font-size: 1.2rem;
+        transition: transform 0.3s ease;
+    }
+
+    .social-links a:hover {
+        transform: scale(1.1);
+    }
+
+    .member-info {
+        padding: 1.5rem;
+        height: 150px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    .member-name {
+        font-size: 1.2rem;
+        font-weight: 600;
+        color: var(--text-dark);
+        margin-bottom: 0.5rem;
+    }
+
+    .member-role {
+        color: var(--secondary-color);
+        font-weight: 500;
+        margin-bottom: 1rem;
+    }
+
+    .member-tags {
+        display: flex;
+        gap: 0.5rem;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+
+    .tag {
+        background: rgba(44, 90, 160, 0.1);
+        color: var(--primary-color);
+        padding: 0.25rem 0.75rem;
+        border-radius: 15px;
+        font-size: 0.8rem;
+        font-weight: 500;
+    }
+
+    .member-details h4 {
+        margin-bottom: 1rem;
+        font-size: 1.3rem;
+    }
+
+    .skills {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        justify-content: center;
+        margin-top: 1rem;
+    }
+
+    .skill {
+        background: rgba(255, 255, 255, 0.2);
+        padding: 0.25rem 0.75rem;
+        border-radius: 15px;
+        font-size: 0.8rem;
+        font-weight: 500;
+    }
+
+    /* CTA Section */
+    .cta-section {
+        padding: 6rem 0;
+        background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+        color: white;
+        text-align: center;
+    }
+
+    .cta-title {
+        font-size: 2.5rem;
+        font-weight: 700;
+        margin-bottom: 1rem;
+    }
+
+    .cta-description {
+        font-size: 1.1rem;
+        margin-bottom: 2rem;
+        opacity: 0.9;
+    }
+
+    .cta-buttons {
+        display: flex;
+        gap: 1rem;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+
+    .btn-primary {
+        background: white;
+        color: var(--primary-color);
+        border: none;
+        font-weight: 600;
+    }
+
+    .btn-primary:hover {
+        background: rgba(255, 255, 255, 0.9);
+        transform: translateY(-2px);
+    }
+
+    .btn-outline-primary {
+        border: 2px solid white;
+        color: white;
+        background: transparent;
+        font-weight: 600;
+    }
+
+    .btn-outline-primary:hover {
+        background: white;
+        color: var(--primary-color);
+        transform: translateY(-2px);
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+        .hero-section {
+            padding: 6rem 0 4rem;
+        }
+        
+        .hero-stats {
+            gap: 2rem;
+        }
+        
+        .team-card {
+            height: 350px;
+        }
+        
+        .member-image {
+            height: 200px;
+        }
+        
+        .cta-title {
+            font-size: 2rem;
+        }
+        
+        .cta-buttons {
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .cta-buttons .btn {
+            width: 200px;
+        }
+    }
+
+    /* Animations */
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .fade-in-up {
+        animation: fadeInUp 0.8s ease-out;
+    }
+
+    /* Custom Owl Carousel Styles */
+    .owl-nav {
+        text-align: center;
+        margin-top: 2rem;
+    }
+
+    .owl-nav button {
+        background: var(--primary-color) !important;
+        color: white !important;
+        border-radius: 50% !important;
+        width: 50px !important;
+        height: 50px !important;
+        margin: 0 0.5rem !important;
+        font-size: 1.2rem !important;
+        transition: all 0.3s ease !important;
+    }
+
+    .owl-nav button:hover {
+        background: var(--secondary-color) !important;
+        transform: scale(1.1) !important;
+    }
+
+    .owl-dots {
+        text-align: center;
+        margin-top: 2rem;
+    }
+
+    .owl-dot {
+        background: var(--border-color) !important;
+        border-radius: 50% !important;
+        width: 12px !important;
+        height: 12px !important;
+        margin: 0 0.5rem !important;
+        transition: all 0.3s ease !important;
+    }
+
+    .owl-dot.active {
+        background: var(--primary-color) !important;
+        transform: scale(1.3) !important;
+    }
+    html, body{
+    height:auto !important;   /* anula el h-100 heredado */
+    min-height:100%;          /* mantiene el sticky‑footer */
+    }
+</style>
+{% endblock %}
+
+{% block contenido %}
+
+    <!-- Hero Section -->
+<section class="hero-section">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-10">
+                <div class="hero-content fade-in-up">
+                    <div class="hero-badge">
+                        <span class="badge-icon">🌪️</span>
+                        <span class="badge-text">Proyecto EATA 2023</span>
+                    </div>
+                    <h1 class="hero-title">
+                        Protegiendo vidas a través de la
+                        <span class="text-gradient">tecnología</span>
+                    </h1>
+                    <p class="hero-description">
+                        Como consecuencia del ciclón Yaku y los desastres producidos en varias regiones de Perú a inicios del 2023,
+                        la Oficina de Tecnologías de la Información (OTI) de la UNI puso en marcha el proyecto EATA. Nuestro objetivo
+                        es alertar a los ciudadanos sobre posibles fenómenos meteorológicos y desarrollar modelos de inteligencia
+                        artificial para prevenir desastres naturales relacionados con eventos climáticos.
+                    </p>
+                    <div class="hero-stats">
+                        <div class="stat-item">
+                            <span class="stat-number">24/7</span>
+                            <span class="stat-label">Monitoreo</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number">6</span>
+                            <span class="stat-label">Especialistas</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number">100%</span>
+                            <span class="stat-label">Peruano</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Team Section -->
+<section id="team" class="team-section">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="section-header text-center">
+                    <span class="section-badge">Nuestro Equipo</span>
+                    <h2 class="section-title">
+                        Conoce a los expertos detrás de
+                        <span class="text-gradient">EATA</span>
+                    </h2>
+                    <p class="section-description">
+                        Un equipo multidisciplinario de ingenieros y especialistas comprometidos
+                        con la prevención de desastres naturales en el Perú.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Generation Toggles -->
+        <div class="row justify-content-center mb-4">
+            <div class="col-auto">
+                <div class="btn-group" role="group" aria-label="Seleccionar Generación">
+                    <button type="button" class="btn btn-primary generation-btn active" data-target="#teamCarousel1g">1ra Generación</button>
+                    <button type="button" class="btn btn-primary generation-btn" data-target="#teamCarousel2g">2da Generación</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="team-container">
+            <!-- 1ra Generación -->
+            <div class="team-slider owl-carousel owl-theme" id="teamCarousel1g">
+                <!-- Sergio Sosa -->
+                 <div class="team-card">
+                    <div class="card-inner">
+                        <div class="card-front">
+                            <div class="member-image">
+                                <img src="{{ url_for('static', filename='img/Sergio02.jpeg') | e}}"
+                                    alt="Sergio Sosa"
+                                    class="img-fluid"
+                                    loading="lazy">
+                                <div class="image-overlay">
+                                    <div class="social-links">
+                                        <a href="https://www.linkedin.com/in/sergiososac"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        aria-label="LinkedIn de Sergio Sosa">
+                                            <i class="fab fa-linkedin-in"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="member-info">
+                                <h3 class="member-name">Sergio Sosa</h3>
+                                <p class="member-role">Líder del Proyecto EATA</p>
+                                <div class="member-tags">
+                                    <span class="tag">Visión Estratégica</span>
+                                    <span class="tag">IA Aplicada</span>
+                                    <span class="tag">Ciencia Climática</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-back">
+                            <div class="member-details">
+                                <h4>Rol</h4>
+                                <p>Lidera el desarrollo de EATA, integrando teledetección, inteligencia artificial y sistemas de alerta temprana para fortalecer la resiliencia climática en el país. Responsable de la visión estratégica, la gestión de alianzas institucionales y la innovación tecnológica con impacto social.</p>
+                                <div class="skills">
+                                    <span class="skill">Teledetección</span>
+                                    <span class="skill">Gestión de Proyectos</span>
+                                    <span class="skill">Desarrollo Tecnológico</span>
+                                    <span class="skill">Inteligencia Artificial</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- JUAN SALVADOR PALACIOS BETT
+ -->
+                 <div class="team-card">
+                    <div class="card-inner">
+                        <div class="card-front">
+                            <div class="member-image">
+                                <img src="{{ url_for('static', filename='img/Juan.jpeg') | e}}"
+                                    alt="Juan Palacios"
+                                    class="img-fluid"
+                                    loading="lazy">
+                                <div class="image-overlay">
+                                    <div class="social-links">
+                                        <a href="https://www.linkedin.com/in/sergiososac"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        aria-label="LinkedIn de Juan Palacios">
+                                            <i class="fab fa-linkedin-in"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="member-info">
+                                <h3 class="member-name">Juan Palacios</h3>
+                                <p class="member-role">Co-líder del Proyecto EATA</p>
+                                <div class="member-tags">
+                                    <span class="tag">Visión Estratégica</span>
+                                    <span class="tag">Ciencia Climática</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-back">
+                            <div class="member-details">
+                                <h4>Rol</h4>
+                                <p>Ingeniero Mecatrónico en formación con experiencia en desarrollo de nanosatélites y procesamiento de imágenes satelitales. Lidero el proyecto UNI-SAT orientado al monitoreo ambiental y detección de hidrocarburos, aplicando programación (Python, C++, MATLAB), simulación (STK, ANSYS, SolidWorks) y diseño electrónico. He participado en congresos internacionales como el IAC (2022, 2023, 2024) con publicaciones sobre visión artificial y tecnologías espaciales.</p>
+                                <div class="skills">
+                                    <span class="skill">Teledetección</span>
+                                    <span class="skill">Gestión de Proyectos</span>
+                                    <span class="skill">Desarrollo Tecnológico</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Jair Córdova -->
+                <div class="team-card">
+                    <div class="card-inner">
+                        <div class="card-front">
+                            <div class="member-image">
+                                <img src="{{ url_for('static', filename='img/jair.png') | e}}"
+                                        alt="Jair Córdova"
+                                        class="img-fluid"
+                                        loading="lazy">
+                                <div class="image-overlay">
+                                    <div class="social-links">
+                                        <a href="https://www.linkedin.com/in/jair-smith-cordova-fuentes-317bbb1aa"
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            aria-label="LinkedIn de Jair Córdova">
+                                            <i class="fab fa-linkedin-in"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="member-info">
+                                <h3 class="member-name">Jair Córdova</h3>
+                                <p class="member-role">Especialista Técnico</p>
+                                <div class="member-tags">
+                                    <span class="tag">Redacción Técnica</span>
+                                    <span class="tag">Satélites</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-back">
+                            <div class="member-details">
+                                <h4>Experiencia</h4>
+                                <p>Encargado de la redacción técnica de productos satelitales para
+                                    la estimación de fenómenos atmosféricos.</p>
+                                <div class="skills">
+                                    <span class="skill">Productos Satelitales</span>
+                                    <span class="skill">Documentación Técnica</span>
+                                    <span class="skill">Meteorología</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Germain Rosadio -->
+                <div class="team-card">
+                    <div class="card-inner">
+                        <div class="card-front">
+                            <div class="member-image">
+                                <img src="{{ url_for('static', filename='img/germain.png') | e}}"
+                                        alt="Germain Rosadio"
+                                        class="img-fluid"
+                                        loading="lazy">
+                                <div class="image-overlay">
+                                    <div class="social-links">
+                                        <a href="https://www.linkedin.com/in/germainrosadiovega"
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            aria-label="LinkedIn de Germain Rosadio">
+                                            <i class="fab fa-linkedin-in"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="member-info">
+                                <h3 class="member-name">Germain Rosadio</h3>
+                                <p class="member-role">Ingeniero Físico</p>
+                                <div class="member-tags">
+                                    <span class="tag">GOES-R</span>
+                                    <span class="tag">Procesamiento</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-back">
+                            <div class="member-details">
+                                <h4>Experiencia</h4>
+                                <p>Especializado en el desarrollo del procesamiento y análisis
+                                    de productos satelitales del GOES-R.</p>
+                                <div class="skills">
+                                    <span class="skill">GOES-R</span>
+                                    <span class="skill">Análisis de Datos</span>
+                                    <span class="skill">Física Atmosférica</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+<!-- Lucas Taipe -->
+                <div class="team-card">
+                    <div class="card-inner">
+                        <div class="card-front">
+                            <div class="member-image">
+                                <img src="{{ url_for('static', filename='img/Lucas.jpg') | e}}"
+                                        alt="Lucas Taipe"
+                                        class="img-fluid"
+                                        loading="lazy">
+                                <div class="image-overlay">
+                                    <div class="social-links">
+                                        <a href="https://www.linkedin.com/in/belyeud-prado-astuvilca-32a8a8195/"
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            aria-label="LinkedIn de Lucas Taipe">
+                                            <i class="fab fa-linkedin-in"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="member-info">
+                                <h3 class="member-name">Lucas Taipe</h3>
+                                <p class="member-role">Especialista en IA</p>
+                                <div class="member-tags">
+                                    <span class="tag">Machine Learning</span>
+                                    <span class="tag">Deep Learning</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-back">
+                            <div class="member-details">
+                                <h4>Experiencia</h4>
+                                <p>Desarrollador de modelos de inteligencia artificial y procesamiento de los datos
+                                    para la estimación de precipitaciones.</p>
+                                <div class="skills">
+                                    <span class="skill">ML Models</span>
+                                    <span class="skill">DL Models</span>
+                                    <span class="skill">Data Science</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+           
+                <!-- Elmer Parado -->
+                <div class="team-card">
+                    <div class="card-inner">
+                        <div class="card-front">
+                            <div class="member-image">
+                                <img src="{{ url_for('static', filename='img/elmer.jpeg') | e}}"
+                                        alt="Elmer Parado"
+                                        class="img-fluid"
+                                        loading="lazy">
+                                <div class="image-overlay">
+                                    <div class="social-links">
+                                        <a href="https://www.linkedin.com/in/daniel-elmer-parado-sosa/"
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            aria-label="LinkedIn de Elmer Parado">
+                                            <i class="fab fa-linkedin-in"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="member-info">
+                                <h3 class="member-name">Elmer Parado</h3>
+                                <p class="member-role">Ingeniero Físico</p>
+                                <div class="member-tags">
+                                    <span class="tag">Imágenes Satelitales</span>
+                                    <span class="tag">IA</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-back">
+                            <div class="member-details">
+                                <h4>Experiencia</h4>
+                                <p>Especialista en procesamiento de imágenes satelitales
+                                    e inteligencia artificial aplicada a meteorología.</p>
+                                <div class="skills">
+                                    <span class="skill">Procesamiento de Imágenes</span>
+                                    <span class="skill">Deep Learning</span>
+                                    <span class="skill">Computer Vision</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Alejandro Chanquetti -->
+                <div class="team-card">
+                    <div class="card-inner">
+                        <div class="card-front">
+                            <div class="member-image">
+                                <img src="{{ url_for('static', filename='img/alejandro.png') | e}}"
+                                        alt="Alejandro Chanquetti"
+                                        class="img-fluid"
+                                        loading="lazy">
+                                <div class="image-overlay">
+                                    <div class="social-links">
+                                        <a href="https://www.linkedin.com/in/luischanquettih/"
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            aria-label="LinkedIn de Alejandro Chanquetti">
+                                            <i class="fab fa-linkedin-in"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="member-info">
+                                <h3 class="member-name">Alejandro Chanquetti</h3>
+                                <p class="member-role">Desarrollador Web</p>
+                                <div class="member-tags">
+                                    <span class="tag">Frontend</span>
+                                    <span class="tag">Backend</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-back">
+                            <div class="member-details">
+                                <h4>Experiencia</h4>
+                                <p>Encargado del desarrollo de la plataforma web y
+                                    la implementación de interfaces de usuario.</p>
+                                <div class="skills">
+                                    <span class="skill">Full Stack</span>
+                                    <span class="skill">React/Flask</span>
+                                    <span class="skill">UI/UX</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Belyeud Prado -->
+                <div class="team-card">
+                    <div class="card-inner">
+                        <div class="card-front">
+                            <div class="member-image">
+                                <img src="{{ url_for('static', filename='img/belyeud.png') | e}}"
+                                        alt="Belyeud Prado Astuvilca"
+                                        class="img-fluid"
+                                        loading="lazy">
+                                <div class="image-overlay">
+                                    <div class="social-links">
+                                        <a href="https://www.linkedin.com/in/belyeud-prado-astuvilca-32a8a8195/"
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            aria-label="LinkedIn de Belyeud Prado">
+                                            <i class="fab fa-linkedin-in"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="member-info">
+                                <h3 class="member-name">Belyeud Prado</h3>
+                                <p class="member-role">Especialista en IA</p>
+                                <div class="member-tags">
+                                    <span class="tag">Machine Learning</span>
+                                    <span class="tag">Precipitaciones</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-back">
+                            <div class="member-details">
+                                <h4>Experiencia</h4>
+                                <p>Desarrollador de modelos de inteligencia artificial
+                                    para la estimación de precipitaciones.</p>
+                                <div class="skills">
+                                    <span class="skill">ML Models</span>
+                                    <span class="skill">Meteorología</span>
+                                    <span class="skill">Data Science</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2da Generación -->
+
+            <div class="team-slider owl-carousel owl-theme" id="teamCarousel2g" style="display: none;">
+                 <!-- Jesus 1 (Coordinador) -->
+                <div class="team-card">
+                    <div class="card-inner">
+                        <div class="card-front">
+                            <div class="member-image">
+                                <img src="{{ url_for('static', filename='img/JesusEATA.jpeg') | e}}"
+                                        alt="Jesús Soberón"
+                                        class="img-fluid"
+                                        loading="lazy">
+                                <div class="image-overlay">
+                                    <div class="social-links">
+                                        <a href="https://www.linkedin.com/in/jesus-alberto-sober%C3%B3n-lozano-28899622a/"
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            aria-label="LinkedIn de Jesús Soberón">
+                                            <i class="fab fa-linkedin-in"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="member-info">
+                                <h3 class="member-name">Jesús Soberón</h3>
+                                <p class="member-role">Coordinador de la direccion GIS</p>
+                                <div class="member-tags">
+                                    <span class="tag">Remote Sensing</span>
+                                    <span class="tag">Estrategia</span>
+                                    <span class="tag">Innovación</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-back">
+                            <div class="member-details">
+                                <h4>Rol</h4>
+                                <p>Ingeniero Ambiental con experiencia en la elaboración de instrumentos de gestión ambiental, monitoreos técnicos y coordinación de proyectos multisectoriales en los sectores energía, hidrocarburos y agricultura. Comprometido con promover un desarrollo equilibrado y sostenible, transforma desafíos ambientales en oportunidades de mejora mediante un enfoque técnico, estratégico y colaborativo.</p>
+                                <div class="skills">
+                                    <span class="skill">Remote Sensing</span>
+                                    <span class="skill">Innovación</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Sergio Sosa (Coordinador) -->
+                <div class="team-card">
+    <div class="card-inner">
+        <div class="card-front">
+            <div class="member-image">
+                <img src="{{ url_for('static', filename='img/Sergio02.jpeg') | e}}"
+                     alt="Sergio Sosa"
+                     class="img-fluid"
+                     loading="lazy">
+                <div class="image-overlay">
+                    <div class="social-links">
+                        <a href="https://www.linkedin.com/in/sergiososac"
+                           target="_blank"
+                           rel="noopener noreferrer"
+                           aria-label="LinkedIn de Sergio Sosa">
+                            <i class="fab fa-linkedin-in"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="member-info">
+                <h3 class="member-name">Sergio Sosa</h3>
+                <p class="member-role">Líder del Proyecto EATA</p>
+                <div class="member-tags">
+                    <span class="tag">Visión Estratégica</span>
+                    <span class="tag">IA Aplicada</span>
+                    <span class="tag">Ciencia Climática</span>
+                </div>
+            </div>
+        </div>
+        <div class="card-back">
+            <div class="member-details">
+                <h4>Rol</h4>
+                <p>Lidera el desarrollo de EATA, integrando teledetección, inteligencia artificial y sistemas de alerta temprana para fortalecer la resiliencia climática en el país. Responsable de la visión estratégica, la gestión de alianzas institucionales y la innovación tecnológica con impacto social.</p>
+                <div class="skills">
+                    <span class="skill">Teledetección</span>
+                    <span class="skill">Gestión de Proyectos</span>
+                    <span class="skill">Desarrollo Tecnológico</span>
+                    <span class="skill">Inteligencia Artificial</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+                <!-- Abigail Castañeda (Coordinador) -->
+                <div class="team-card">
+                    <div class="card-inner">
+                        <div class="card-front">
+                            <div class="member-image">
+                                <img src="{{ url_for('static', filename='img/Abigail.jpg') | e}}"
+                                        alt="Abigail Castañeda"
+                                        class="img-fluid"
+                                        loading="lazy"
+                                        >
+                                <div class="image-overlay">
+                                    <div class="social-links">
+                                        <a href="https://www.linkedin.com/in/sergiososac"
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            aria-label="LinkedIn de Sergio Sosa">
+                                            <i class="fab fa-linkedin-in"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="member-info">
+                                <h3 class="member-name">Abigail Castañeda</h3>
+                                <p class="member-role">Sub-coordinadora del Proyecto</p>
+                                <div class="member-tags">
+                                    <span class="tag">Estrategia</span>
+                                    <span class="tag">Innovación</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-back">
+                            <div class="member-details">
+                                <h4>Perfil</h4>
+                                <p>Estudiante de Ingeniería Mecatrónica con experiencia en el desarrollo y liderazgo de proyectos tecnológicos, tanto individuales como en equipo. Ha demostrado habilidades destacadas en organización, comunicación y toma de decisiones, participando activamente en iniciativas orientadas al progreso tecnológico y al impacto social. Interesada en la investigación aplicada y en contribuir al desarrollo del país mediante soluciones innovadoras desde la ingeniería.</p>
+                                <div class="skills">
+                                    <span class="skill">Gestión Estratégica</span>
+                                    <span class="skill">Remote Sensing</span>
+                                    <span class="skill">Inteligencia Artificial</span>
+                                    <span class="skill">Relaciones Institucionales</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+<!-- Michael (Coordinador) -->
+                <div class="team-card">
+                    <div class="card-inner">
+                        <div class="card-front">
+                            <div class="member-image">
+                                <img src="{{ url_for('static', filename='img/Michael.jpeg') | e}}"
+                                        alt="Michael Villalba Ramirez"
+                                        class="img-fluid"
+                                        loading="lazy">
+                                <div class="image-overlay">
+                                    <div class="social-links">
+                                        <a href="https://www.linkedin.com/in/sergiososac"
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            aria-label="LinkedIn de Sergio Sosa">
+                                            <i class="fab fa-linkedin-in"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="member-info">
+                                <h3 class="member-name">Michael Villalba</h3>
+                                <p class="member-role">Desarrollador de IA</p>
+                                <div class="member-tags">
+                                    <span class="tag">Remote Sensing</span>
+                                    <span class="tag">Machine Learning</span>
+                                    <span class="tag">Deep Learning</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-back">
+                            <div class="member-details">
+                                <h4>Rol</h4>
+                                <p>Egresado de Ingeniería Geológica con experiencia en Sistemas de Información Geográfica (SIG), modelamiento geológico en 3D y técnicas de aprendizaje profundo aplicadas a la prospección mineral. Su enfoque combina el análisis espacial con herramientas avanzadas de inteligencia artificial para optimizar procesos en exploración geológica.</p>
+                                <div class="skills">
+                                    <span class="skill">Remote Sensing</span>
+                                    <span class="skill">Deep Learning</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+<!-- Erika (Coordinador) -->
+                <div class="team-card">
+                    <div class="card-inner">
+                        <div class="card-front">
+                            <div class="member-image">
+                                <img src="{{ url_for('static', filename='img/Erika.jpeg') | e}}"
+                                        alt="Erica Salazar"
+                                        class="img-fluid"
+                                        loading="lazy">
+                                <div class="image-overlay">
+                                    <div class="social-links">
+                                        <a href="https://www.linkedin.com/in/sergiososac"
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            aria-label="LinkedIn de Sergio Sosa">
+                                            <i class="fab fa-linkedin-in"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="member-info">
+                                <h3 class="member-name">Erica Salazar</h3>
+                                <p class="member-role">Especialista en Geotecnia</p>
+                                <div class="member-tags">
+                                    <span class="tag">Remote Sensing</span>
+                                    <span class="tag">Mecánica de suelos</span>
+                                    <span class="tag">Simulación geomecánica</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-back">
+                            <div class="member-details">
+                                <h4>Rol</h4>
+                                <p>Egresada de Ingeniería Geológica con sólida formación en ciencias de la Tierra, manejo de Sistemas de Información Geográfica (SIG) y modelado geomecánico en 3D. Ha participado en diversos proyectos académicos aplicados, integrando el análisis técnico con una visión integral del territorio. Cuenta con experiencia en gestión estudiantil, destacando por su compromiso con la responsabilidad social y ambiental, y su capacidad para liderar e impulsar iniciativas con impacto positivo.</p>
+                                <div class="skills">
+                                    <span class="skill">Remote Sensing</span>
+                                    <span class="skill">Simulación geomecánica</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Elmer Parado (Coordinador) -->
+                <div class="team-card">
+                    <div class="card-inner">
+                        <div class="card-front">
+                            <div class="member-image">
+                                <img src="{{ url_for('static', filename='img/elmer.jpeg') | e}}"
+                                        alt="Elmer Parado"
+                                        class="img-fluid"
+                                        loading="lazy">
+                                <div class="image-overlay">
+                                    <div class="social-links">
+                                        <a href="https://www.linkedin.com/in/daniel-elmer-parado-sosa/"
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            aria-label="LinkedIn de Elmer Parado">
+                                            <i class="fab fa-linkedin-in"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="member-info">
+                                <h3 class="member-name">Elmer Parado</h3>
+                                <p class="member-role">Especialisata IA </p>
+                                <div class="member-tags">
+                                    <span class="tag">Remote Sensing</span>
+                                    <span class="tag">Machine Learning</span>
+                                    <span class="tag">Deep Learning</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-back">
+                            <div class="member-details">
+                                <h4>Rol</h4>
+                                <p>Lidera la dirección técnica y la implementación de soluciones de IA.</p>
+                                <div class="skills">
+                                    <span class="skill">Deep Learning</span>
+                                    <span class="skill">Arquitectura de Sistemas</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+<!-- Shhiomara (Coordinador) -->
+                <div class="team-card">
+                    <div class="card-inner">
+                        <div class="card-front">
+                            <div class="member-image">
+                                <img src="{{ url_for('static', filename='img/Shiomara.jpeg') | e}}"
+                                        alt="Shiomara Villena"
+                                        class="img-fluid"
+                                        loading="lazy">
+                                <div class="image-overlay">
+                                    <div class="social-links">
+                                        <a href="https://www.linkedin.com/in/sergiososac"
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            aria-label="LinkedIn de Shiomara Villena">
+                                            <i class="fab fa-linkedin-in"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="member-info">
+                                <h3 class="member-name">Shiomara Villena</h3>
+                                <p class="member-role">Especialista GIS</p>
+                                <div class="member-tags">
+                                    <span class="tag">Remote Sensing</span>
+                                    <span class="tag">Machine Learning</span>
+                                    <span class="tag">Analista Ambiental</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-back">
+                            <div class="member-details">
+                                <h4>Rol</h4>
+                                <p>Especialista en teledetección, SIG y análisis climático, con experiencia en el manejo de datos geoespaciales complejos para generar información técnica precisa y útil. Aplica herramientas avanzadas como inteligencia artificial, modelos predictivos y simuladores para apoyar procesos de monitoreo ambiental, planificación territorial y evaluación de los impactos del cambio climático.</p>
+                                <div class="skills">
+                                    <span class="skill">Remote Sensing</span>
+                                    <span class="skill">Machine Learning</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+               
+                <!-- Jhosep (Coordinador) -->
+                <div class="team-card">
+                    <div class="card-inner">
+                        <div class="card-front">
+                            <div class="member-image">
+                                <img src="{{ url_for('static', filename='img/Jhosep.jpeg') | e}}"
+                                        alt="Michael Villalba Ramirez"
+                                        class="img-fluid"
+                                        loading="lazy">
+                                <div class="image-overlay">
+                                    <div class="social-links">
+                                        <a href="https://www.linkedin.com/in/sergiososac"
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            aria-label="LinkedIn de Sergio Sosa">
+                                            <i class="fab fa-linkedin-in"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="member-info">
+                                <h3 class="member-name">Jhosep Arteta</h3>
+                                <p class="member-role">Especialista en SIG</p>
+                                <div class="member-tags">
+                                    <span class="tag">Remote Sensing</span>
+                                    <span class="tag">Machine Learning</span>
+                                    <span class="tag">SIG</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-back">
+                            <div class="member-details">
+                                <h4>Rol</h4>
+                                <p>Bachiller en Ingeniería Ambiental con experiencia en la elaboración de estudios ambientales en los sectores hidrocarburos e industrial. Apasionado por la teledetección y su integración en el análisis ambiental, ha desarrollado habilidades para el uso de imágenes satelitales y herramientas SIG en la evaluación, monitoreo y gestión de impactos ambientales.</p>
+                                <div class="skills">
+                                    <span class="skill">Remote Sensing</span>
+                                    <span class="skill">Machine Learning</span>
+                                    <span class="skill">SIG</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+<!-- Cesar (Coordinador) -->
+                <div class="team-card">
+                    <div class="card-inner">
+                        <div class="card-front">
+                            <div class="member-image">
+                                <img src="{{ url_for('static', filename='img/Cesar.jpeg') | e}}"
+                                        alt="Cesar"
+                                        class="img-fluid"
+                                        loading="lazy">
+                                <div class="image-overlay">
+                                    <div class="social-links">
+                                        <a href="https://www.linkedin.com/in/sergiososac"
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            aria-label="LinkedIn de Sergio Sosa">
+                                            <i class="fab fa-linkedin-in"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="member-info">
+                                <h3 class="member-name">Cesar Orellana</h3>
+                                <p class="member-role">Investigación</p>
+                                <div class="member-tags">
+                                    <span class="tag">Remote Sensing</span>
+                                    
+                                    <span class="tag">SIG</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-back">
+                            <div class="member-details">
+                                <h4>Rol</h4>
+                                <p>Estudiante de Física con interés en el desarrollo de soluciones computacionales aplicadas a la ciencia, especialmente en el campo de la Física Computacional. Se enfoca en el uso de tecnologías emergentes como el aprendizaje automático y las simulaciones numéricas para resolver problemas complejos, integrando programación científica con modelos físicos.</p>
+                                <div class="skills">
+                                    <span class="skill">Remote Sensing</span>
+                                    <span class="skill">SIG</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+<!-- Danitza (Coordinador) -->
+                <div class="team-card">
+                    <div class="card-inner">
+                        <div class="card-front">
+                            <div class="member-image">
+                                <img src="{{ url_for('static', filename='img/Danitza.jpeg') | e}}"
+                                        alt="Danitza"
+                                        class="img-fluid"
+                                        loading="lazy">
+                                <div class="image-overlay">
+                                    <div class="social-links">
+                                        <a href="https://www.linkedin.com/in/sergiososac"
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            aria-label="LinkedIn de Sergio Sosa">
+                                            <i class="fab fa-linkedin-in"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="member-info">
+                                <h3 class="member-name">Danitza Qhispe</h3>
+                                <p class="member-role">Especialista en SIG</p>
+                                <div class="member-tags">
+                                    <span class="tag">Remote Sensing</span>
+                                    <span class="tag">SIG</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-back">
+                            <div class="member-details">
+                                <h4>Rol</h4>
+                                <p>Estudiante de Ingeniería Ambiental con sólida formación en teledetección y Sistemas de Información Geográfica (SIG), especialmente con el uso de ArcGIS. Ha participado en proyectos de investigación orientados a la solución de problemáticas ambientales, así como en voluntariados enfocados en sostenibilidad. Cuenta con habilidades en análisis de datos, manejo de información espacial y gestión de recursos naturales, combinando el enfoque técnico con el compromiso social.</p>
+                                <div class="skills">
+                                    <span class="skill">Remote Sensing</span>
+                                    <span class="skill">SIG</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Call to Action -->
+<section class="cta-section">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="cta-content text-center">
+                    <h2 class="cta-title">¿Quieres conocer más sobre nuestro trabajo?</h2>
+                    <p class="cta-description">
+                        Síguenos en nuestras redes sociales para estar al día con las últimas
+                        actualizaciones del proyecto EATA y nuestros avances en la prevención
+                        de desastres naturales.
+                    </p>
+                    <div class="cta-buttons">
+                        <a href="{{ url_for('contact') | e }}" class="btn btn-primary btn-lg">
+                            <i class="fas fa-envelope me-2"></i>
+                            Contáctanos
+                        </a>
+                        <a href="{{ url_for('geovisor') | e }}" class="btn btn-outline-primary btn-lg">
+                            <i class="fas fa-map me-2"></i>
+                            Ver Geovisor
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}
+
+
+
+<!-- JavaScript -->
+{% block page_scripts %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+
+<script>
+$(document).ready(function() {
+    // Configuración común para los carruseles
+    const owlConfig = {
+        loop: true,
+        nav: true,
+        dots: true,
+        autoplay: true,
+        autoplayTimeout: 6000,
+        autoplayHoverPause: true,
+        smartSpeed: 800,
+        margin: 30,
+        stagePadding: 0,
+        navText: [
+            '<i class="fas fa-chevron-left"></i>',
+            '<i class="fas fa-chevron-right"></i>'
+        ],
+        responsive: {
+            0: { items: 1, nav: false, margin: 15 },
+            576: { items: 1, nav: true, margin: 20 },
+            768: { items: 2, nav: true, margin: 25 },
+            992: { items: 3, nav: true, margin: 30 },
+            1200: { items: 3, nav: true, margin: 30 }
+        },
+        onInitialized: function(event) {
+            $(event.target).find('.team-card').addClass('fade-in-up');
+        }
+    };
+
+    // Inicializar ambos carruseles
+    const carousel1g = $('#teamCarousel1g').owlCarousel(owlConfig);
+    const carousel2g = $('#teamCarousel2g').owlCarousel(owlConfig);
+
+    // Lógica para cambiar entre generaciones
+    $('.generation-btn').on('click', function() {
+        const targetCarousel = $(this).data('target');
+
+        // Manejar el estado activo de los botones
+        $('.generation-btn').removeClass('active');
+        $(this).addClass('active');
+
+        // Mostrar/Ocultar carruseles con un efecto de fundido
+        $('.team-slider').not(targetCarousel).fadeOut(400, function() {
+            $(targetCarousel).fadeIn(400);
+            // Redibujar el carrusel activo para asegurar que se muestre correctamente
+            $(targetCarousel).trigger('refresh.owl.carousel');
+        });
+    });
+
+    // Pausar autoplay cuando se hace hover sobre las tarjetas
+    $('.team-card').hover(
+        function() {
+            $(this).closest('.owl-carousel').trigger('stop.owl.autoplay');
+        },
+        function() {
+            $(this).closest('.owl-carousel').trigger('play.owl.autoplay', [6000]);
+        }
+    );
+
+    // Animación de scroll para las secciones
+    const observerOptions = {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('fade-in-up');
+            }
+        });
+    }, observerOptions);
+
+    // Observar elementos para animaciones
+    document.querySelectorAll('.section-header, .hero-content').forEach(el => {
+        observer.observe(el);
+    });
+
+    // Smooth scrolling para enlaces internos
+    $('a[href^="#"]').on('click', function(e) {
+        e.preventDefault();
+        const target = $(this.getAttribute('href'));
+        if (target.length) {
+            $('html, body').animate({
+                scrollTop: target.offset().top - 100
+            }, 800);
+        }
+    });
+
+    // Efecto parallax sutil en el hero
+    $(window).on('scroll', function() {
+        const scrollTop = $(this).scrollTop();
+        const heroSection = $('.hero-section');
+        
+        if (scrollTop < heroSection.outerHeight()) {
+            heroSection.css('transform', `translateY(${scrollTop * 0.3}px)`);
+        }
+    });
+
+    // Preload de imágenes para mejor rendimiento
+    const imageUrls = [
+        "{{ url_for('static', filename='img/sergio.png') | e}}",
+        "{{ url_for('static', filename='img/jair.png') | e}}",
+        "{{ url_for('static', filename='img/germain.png') | e}}",
+        "{{ url_for('static', filename='img/elmer.jpeg') | e}}",
+        "{{ url_for('static', filename='img/alejandro.png') | e}}",
+        "{{ url_for('static', filename='img/belyeud.png') | e}}"
+    ];
+
+    imageUrls.forEach(url => {
+        const img = new Image();
+        img.src = url;
+    });
+
+    // Manejo de errores de carga de imágenes
+    $('.team-card img').on('error', function() {
+        $(this).attr('src', 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAwIiBoZWlnaHQ9IjMwMCIgdmlld0JveD0iMCAwIDMwMCAzMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIiBmaWxsPSIjRjhGOUZBIi8+CjxwYXRoIGQ9Ik0xNTAgMTAwQzEyNy45IDEwMCAxMTAgMTE3LjkgMTEwIDE0MFMxMjcuOSAxODAgMTUwIDE4MFMxOTAgMTYyLjEgMTkwIDE0MFMxNzIuMSAxMDAgMTUwIDEwMFpNMTUwIDEyMEMxNjEuMDUgMTIwIDE3MCAzMC4wNSAxNzAgMTQwUzE2MS4wNSAxNjAgMTUwIDE2MFMxMzAgMTUwLjk1IDEzMCAxNDBTMTM4Ljk1IDEyMCAxNTAgMTIwWiIgZmlsbD0iIzZDNzU3RCIvPgo8cGF0aCBkPSJNMTIwIDIwMEgyMDBDMjA1LjUgMjAwIDIxMCAyMDQuNSAyMTAgMjEwVjIzMEMxOTUgMjMwIDEwNSAyMzAgOTAgMjMwVjIxMEM5MCAyMDQuNSA5NC41IDIwMCAxMDAgMjAwSDEyMFoiIGZpbGw9IiM2Qzc1N0QiLz4KPC9zdmc+');
+        $(this).css('filter', 'grayscale(100%)');
+    });
+
+    // Contador animado para las estadísticas
+   // Contador animado para las estadísticas
+const animateCounter = (element, target) => {
+    let current = 0;
+
+    // 1) primer número que aparezca en el string
+    const targetValue = parseInt(target.match(/\d+/)[0], 10);
+
+    // 2) sufijo permitido
+    const suffix = target.includes('/7') ? '/7'
+                : target.includes('%')  ? '%'
+                : '';
+
+    // 3) incremento suave
+    const increment = targetValue / 50;
+
+    const timer = setInterval(() => {
+        current += increment;
+
+        if (current >= targetValue) {
+            element.textContent = targetValue + suffix;
+            clearInterval(timer);
+        } else {
+            element.textContent = Math.floor(current) + suffix;
+        }
+    }, 40);
+};
+
+    // Observar las estadísticas para animar cuando estén visibles
+    const statsObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const statNumber = entry.target.querySelector('.stat-number');
+                const targetText = statNumber.textContent;
+                
+                animateCounter(statNumber, targetText);
+                statsObserver.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.5 });
+
+    document.querySelectorAll('.stat-item').forEach(stat => {
+        statsObserver.observe(stat);
+    });
+
+    // Accessibility improvements
+    $('.team-card').attr('tabindex', '0').on('keydown', function(e) {
+        if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            $(this).find('.card-inner').toggleClass('flipped');
+        }
+    });
+
+    // Touch support para dispositivos móviles
+    let touchStartX = 0;
+    let touchEndX = 0;
+
+    $('.team-card').on('touchstart', function(e) {
+        touchStartX = e.changedTouches[0].screenX;
+    });
+
+    $('.team-card').on('touchend', function(e) {
+        touchEndX = e.changedTouches[0].screenX;
+        if (Math.abs(touchEndX - touchStartX) < 10) {
+            // Tap detected
+            $(this).find('.card-inner').toggleClass('flipped');
+        }
+    });
+
+    // Lazy loading para imágenes
+    if ('IntersectionObserver' in window) {
+        const imageObserver = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const img = entry.target;
+                    img.src = img.dataset.src || img.src;
+                    img.classList.remove('lazy');
+                    imageObserver.unobserve(img);
+                }
+            });
+        });
+
+        document.querySelectorAll('img[loading="lazy"]').forEach(img => {
+            imageObserver.observe(img);
+        });
+    }
+
+});
+
+// Funciones globales para optimización
+const debounce = (func, wait) => {
+    let timeout;
+    return function executedFunction(...args) {
+        const later = () => {
+            clearTimeout(timeout);
+            func(...args);
+        };
+        clearTimeout(timeout);
+        timeout = setTimeout(later, wait);
+    };
+};
+
+// Manejo optimizado del scroll
+const handleScroll = debounce(() => {
+    const scrollTop = window.pageYOffset;
+    const heroSection = document.querySelector('.hero-section');
+    
+    if (heroSection && scrollTop < heroSection.offsetHeight) {
+        heroSection.style.transform = `translateY(${scrollTop * 0.3}px)`;
+    }
+}, 16);
+
+window.addEventListener('scroll', handleScroll);
+
+// Service Worker para cache (opcional)
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js')
+            .then(registration => {
+                console.log('SW registered: ', registration);
+            })
+            .catch(registrationError => {
+                console.log('SW registration failed: ', registrationError);
+            });
+    });
+}
+</script>
+{% endblock %}

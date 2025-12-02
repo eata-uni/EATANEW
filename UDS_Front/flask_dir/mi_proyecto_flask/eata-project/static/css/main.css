@@ -1,0 +1,578 @@
+:root {
+  /* Colores principales */
+  --primary-color: #2c5aa0;
+  --secondary-color: #88a4bc;
+  --accent-color: #1e3a5f;
+  --success-color: #28a745;
+  --warning-color: #ffc107;
+  --danger-color: #dc3545;
+  
+  /* Colores de texto */
+  --text-dark: #2c3e50;
+  --text-light: #6c757d;
+  --text-white: #000000;
+  
+  /* Colores de fondo */
+  --bg-light: #ffffff;
+  --bg-white: #ffffff;
+  --bg-dark: #343a40;
+  
+  /* Bordes */
+  --border-color: #e9ecef;
+  --border-radius: 12px;
+  --border-radius-lg: 20px;
+  
+  /* Sombras */
+  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.15);
+  --shadow-hover: 0 12px 32px rgba(44, 90, 160, 0.2);
+  
+  /* Transiciones */
+  --transition-fast: 0.2s ease;
+  --transition-smooth: 0.3s ease;
+  --transition-slow: 0.5s ease;
+  
+  /* Espaciado */
+  --spacing-xs: 0.5rem;
+  --spacing-sm: 1rem;
+  --spacing-md: 1.5rem;
+  --spacing-lg: 2rem;
+  --spacing-xl: 3rem;
+  
+  /* Tipografía */
+  --font-family-primary: 'Titillium Web', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-weight-light: 300;
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+}
+
+/* ===== ESTILOS BASE ===== */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-normal);
+  line-height: 1.6;
+  color: var(--text-dark);
+  background-color: var(--bg-light);
+  margin: 0;
+  padding: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ===== UTILIDADES ===== */
+.text-center {
+  text-align: center;
+}
+
+.mb-0 { margin-bottom: 0; }
+.mb-1 { margin-bottom: var(--spacing-xs); }
+.mb-2 { margin-bottom: var(--spacing-sm); }
+.mb-3 { margin-bottom: var(--spacing-md); }
+.mb-4 { margin-bottom: var(--spacing-lg); }
+.mb-5 { margin-bottom: var(--spacing-xl); }
+
+/* ===== NAVEGACIÓN MEJORADA ===== */
+.navbar {
+  backdrop-filter: blur(10px);
+  background-color: rgba(248, 249, 250, 0.95) !important;
+  box-shadow: var(--shadow-sm);
+  transition: var(--transition-smooth);
+}
+
+.navbar-brand {
+  font-weight: var(--font-weight-bold);
+  color: var(--primary-color) !important;
+  font-size: 1.25rem;
+}
+
+.nav-link {
+  font-weight: var(--font-weight-medium);
+  color: var(--text-dark) !important;
+  position: relative;
+  transition: var(--transition-fast);
+}
+
+.nav-link:hover {
+  color: var(--primary-color) !important;
+}
+
+.nav-link::after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 2px;
+  bottom: 0;
+  left: 50%;
+  background-color: var(--primary-color);
+  transition: var(--transition-smooth);
+  transform: translateX(-50%);
+}
+
+.nav-link:hover::after {
+  width: 100%;
+}
+
+/* ===== HEADER Y LOGO ===== */
+.header-icon-one {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: var(--spacing-sm) 0;
+  margin: 0;
+  margin-bottom: 0;
+}
+
+.header-icon-one img {
+  max-width: 100%;
+  height: auto;
+  object-fit: contain;
+  /* Elimina espacios en blanco de la imagen */
+  clip-path: inset(10% 0 13% 0);
+  /* Alternativa usando margin negativo si clip-path no funciona bien */
+  margin-top: -5%;
+  margin-bottom: -8%;
+}
+
+/* Responsive para el logo */
+@media (max-width: 768px) {
+  .header-icon-one {
+    padding: var(--spacing-xs) 0;
+    margin-bottom: 0;
+  }
+  
+  .header-icon-one img {
+    clip-path: inset(8% 0 8% 0);
+    margin-top: -3%;
+    margin-bottom: -3%;
+  }
+}
+
+@media (max-width: 576px) {
+  .header-icon-one {
+    padding: var(--spacing-xs) 0;
+    margin-bottom: 0;
+  }
+  
+  .header-icon-one img {
+    clip-path: inset(5% 0 5% 0);
+    margin-top: -2%;
+    margin-bottom: -2%;
+  }
+}
+
+/* ===== SECCIÓN DE EQUIPO ===== */
+#team {
+  padding: var(--spacing-xl) 0;
+  background-color: var(--bg-white);
+  position: relative;
+  overflow: hidden;
+}
+
+#team::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--border-color), transparent);
+}
+
+/* ===== ENCABEZADOS DE SECCIÓN ===== */
+.sec-heading {
+  text-align: center;
+  margin-bottom: var(--spacing-xl);
+}
+
+.sec-heading h6 {
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  font-weight: var(--font-weight-bold);
+  color: var(--primary-color);
+  margin-bottom: var(--spacing-sm);
+  position: relative;
+  display: inline-block;
+}
+
+.sec-heading h6::after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 4px;
+  background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+  border-radius: 2px;
+}
+
+.sec-heading p {
+  font-size: 1.1rem;
+  color: var(--text-light);
+  max-width: 600px;
+  margin: 0 auto;
+  line-height: 1.7;
+}
+
+/* ===== TARJETAS DE EQUIPO ===== */
+.single-box {
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius-lg);
+  overflow: hidden;
+  background-color: var(--bg-white);
+  box-shadow: var(--shadow-sm);
+  transition: var(--transition-smooth);
+  position: relative;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.single-box::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+  transform: scaleX(0);
+  transition: var(--transition-smooth);
+}
+
+.single-box:hover {
+  transform: translateY(-8px);
+  box-shadow: var(--shadow-hover);
+  border-color: var(--primary-color);
+}
+
+.single-box:hover::before {
+  transform: scaleX(1);
+}
+
+/* ===== ÁREA DE IMAGEN ===== */
+.img-area {
+  overflow: hidden;
+  padding: var(--spacing-lg) var(--spacing-sm);
+  background-color: var(--bg-white);
+  position: relative;
+}
+
+.img-area::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--border-color), transparent);
+}
+
+.img-area img {
+  margin: 0 auto;
+  transition: var(--transition-slow);
+  max-width: 200px;
+  width: 100%;
+  height: auto;
+  border-radius: var(--border-radius);
+  filter: grayscale(10%);
+}
+
+.single-box:hover .img-area img {
+  transform: scale(1.05);
+  filter: grayscale(0%);
+}
+
+/* ===== ÁREA DE INFORMACIÓN ===== */
+.info-area {
+  padding: var(--spacing-lg) var(--spacing-md) var(--spacing-xl);
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+}
+
+.info-area h4 {
+  font-weight: var(--font-weight-semibold);
+  color: var(--text-dark);
+  margin-bottom: var(--spacing-sm);
+  font-size: 1.25rem;
+}
+
+.info-area h5 {
+  color: var(--secondary-color);
+  font-weight: var(--font-weight-medium);
+  font-size: 1rem;
+  margin-bottom: var(--spacing-md);
+}
+
+.info-area p {
+  color: var(--text-light);
+  line-height: 1.6;
+  margin-bottom: var(--spacing-md);
+  flex-grow: 1;
+}
+
+.info-area .btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: auto;
+  background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+  color: var(--text-white);
+  padding: var(--spacing-sm) var(--spacing-lg);
+  border-radius: var(--border-radius);
+  text-decoration: none;
+  font-weight: var(--font-weight-medium);
+  transition: var(--transition-smooth);
+  border: none;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+
+.info-area .btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: var(--transition-smooth);
+}
+
+.info-area .btn:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.info-area .btn:hover::before {
+  left: 100%;
+}
+
+.info-area .btn:active {
+  transform: translateY(0);
+}
+
+/* ===== SLIDER/CARRUSEL ===== */
+.team-slider .owl-dots {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -80px;
+  text-align: center;
+  width: 100%;
+}
+
+.team-slider button.owl-dot {
+  width: 12px;
+  height: 12px;
+  display: inline-block;
+  margin: 0 var(--spacing-xs);
+  text-align: center;
+  border-radius: 50%;
+  background-color: var(--border-color);
+  border: none;
+  cursor: pointer;
+  transition: var(--transition-fast);
+  position: relative;
+}
+
+.team-slider button.owl-dot::after {
+  content: '';
+  position: absolute;
+  top: -4px;
+  left: -4px;
+  right: -4px;
+  bottom: -4px;
+  border: 2px solid transparent;
+  border-radius: 50%;
+  transition: var(--transition-fast);
+}
+
+.team-slider button.owl-dot:hover {
+  background-color: var(--secondary-color);
+  transform: scale(1.2);
+}
+
+.team-slider button.owl-dot.active {
+  background-color: var(--primary-color);
+  transform: scale(1.3);
+}
+
+.team-slider button.owl-dot.active::after {
+  border-color: var(--primary-color);
+}
+
+/* ===== ANIMACIONES ===== */
+@keyframes float-animation {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+.move-animation {
+  position: relative;
+  animation: float-animation 3s ease-in-out infinite;
+}
+
+.fade-in-up {
+  animation: fade-in-up 0.6s ease-out;
+}
+
+/* ===== FOOTER MEJORADO ===== */
+.footer {
+  background-color: var(--bg-white);
+  padding: var(--spacing-md) 0;
+  border-top: 1px solid var(--border-color);
+  margin-top: 0;
+}
+
+/* Contenedor principal del footer para eliminar espacios extra */
+.container.py-5 {
+  padding-top: 0 !important;
+  padding-bottom: var(--spacing-md) !important;
+}
+
+/* Eliminar espacios extra entre contenido y footer */
+.row {
+  margin-bottom: 0;
+}
+
+.col-md-12.mt-1 {
+  margin-bottom: 0;
+}
+
+.social-icon {
+  font-size: 1.5rem;
+  margin: 0 var(--spacing-sm);
+  color: var(--text-light);
+  transition: var(--transition-smooth);
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-color: transparent;
+  border: 2px solid var(--border-color);
+}
+
+.social-icon:hover {
+  color: var(--primary-color);
+  background-color: transparent;
+  border-color: var(--primary-color);
+  transform: translateY(-3px);
+  text-decoration: none;
+}
+
+/* ===== RESPONSIVE DESIGN ===== */
+@media (max-width: 768px) {
+  .sec-heading h6 {
+    font-size: 2.5rem;
+  }
+  
+  .info-area {
+    padding: var(--spacing-md);
+  }
+  
+  .single-box {
+    margin-bottom: var(--spacing-lg);
+  }
+  
+  .social-icon {
+    width: 45px;
+    height: 45px;
+    font-size: 1.3rem;
+    margin: 0 var(--spacing-xs);
+  }
+}
+
+@media (max-width: 576px) {
+  #team {
+    padding: var(--spacing-lg) 0;
+  }
+  
+  .sec-heading {
+    margin-bottom: var(--spacing-lg);
+  }
+  
+  .info-area .btn {
+    padding: var(--spacing-xs) var(--spacing-md);
+    font-size: 0.9rem;
+  }
+}
+
+/* ===== MODO OSCURO (OPCIONAL) ===== */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --text-dark: #000000;
+    --text-light: #000000;
+    --bg-light: #ffffff;
+    --bg-white: #ffffff;
+    --border-color: #495057;
+  }
+  
+  .navbar {
+    background-color: rgba(255, 255, 255, 0.95) !important;
+  }
+  
+  .single-box {
+    background-color: var(--bg-white);
+    border-color: var(--border-color);
+  }
+}
+
+/* ===== MEJORAS DE ACCESIBILIDAD ===== */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}

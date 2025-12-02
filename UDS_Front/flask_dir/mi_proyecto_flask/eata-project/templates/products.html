@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+{% block title %} Productos {% endblock%}
+
+{% block contenido %}
+
+<header id="header">
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-md-3 mt-5">
+    
+                <div class="header-text-one product-container">
+                    <p class="h4 mt-2">Tasa de precipitaciones&nbsp; </p> 
+                    <div class="header-icon-one">
+                        <img src="{{ url_for('static', filename='img/icon_product_one.png') | e}}" style="width: 100%;" alt="type1">
+                    </div>
+                    <p class="text-justify mt-2">El Producto "Tasa de precipitaciones" utiliza temperaturas de brillo infrarrojas (IR) para identificar áreas de lluvia y calcular la tasa de precipitación. Las estimaciones de precipitación a partir de satélites pueden proporcionar información crítica sobre la lluvia en regiones donde los datos de pluviómetros o radares no están disponibles o son poco fiables, como sobre océanos o regiones escasamente pobladas.</p>
+                    <a href="{{url_for('product', product_name='one') | e}}" class="btn btn-outline-secondary btn-ms mt-2 header-btn">Ver en tiempo real</a>
+                    <!-- <a href="#" class="btn btn-outline-secondary btn-ms mt-2 header-btn">Ver de fechas pasadas</a> -->
+                </div>
+            </div>
+            <div class="col-md-3 mt-5">
+                
+                <div class="header-text-two product-container">
+                    <p class="h4 mt-2">Temperatura de la superficie terrestre</p>
+                    <div class="header-icon-two">
+                        <img src="{{ url_for('static', filename='img/icon_product_two.png') | e}}" style="width: 100%;" alt="type2">
+                    </div>
+                    <p class="text-justify mt-2">El producto satelital del GOES-R es una herramienta 
+innovadora y avanzada diseñada para estimar y visualizar el vapor de agua en la atmósfera a nivel global. Utilizando tecnología satelital y algoritmos sofisticados, este producto proporciona información detallada sobre la 
+distribución vertical y horizontal del vapor de agua, permitiendo un mejor entendimiento de 
+los fenómenos atmosféricos y el clima. </p>
+                    <a href="{{url_for('product', product_name='two') | e}}" class="btn btn-outline-secondary btn-ms mt-2 header-btn">Ver en tiempo real</a>
+                    <!--<a href="#" class="btn btn-outline-secondary btn-ms mt-2 header-btn">Ver de fechas pasadas</a>-->
+                </div>
+            </div>
+            <div class="col-md-3 mt-5">
+            
+    
+                <div class="header-text-one">
+                    <p class="h4 mt-2">Máscara de Cielo despejado</p>
+                    <div class="header-icon-one">
+                        <img src="{{ url_for('static', filename='img/icon_product_five.png') | e}}" style="width: 100%;" alt="type5">
+                    </div>
+                    <p class="text-justify mt-2">El algoritmo de máscara de cielo despejado aprovecha la alta resolución espacial y temporal de las bandas visible, infrarroja cercana e infrarroja del GOES-R ABI para producir automáticamente una clasificación de nubes para cada píxel: nublado, probablemente nublado, despejado o probablemente despejado,esencial para aplicaciones de energía solar y agricultura.</p>
+                    <a href="{{url_for('product', product_name='five') | e}}" class="btn btn-outline-secondary btn-ms mt-2 header-btn">Ver en tiempo real</a>
+                    <!--<a href="#" class="btn btn-outline-secondary btn-ms mt-2 header-btn">Ver de fechas pasadas</a>-->
+                </div>
+            
+               
+            </div>
+            <div class="col-md-3 mt-5">
+                <div class="header-text-three product-container">
+                    <p class="h4 mt-2">Agua Precipitable Total&nbsp; </p>
+                    <div class="header-icon-three">
+                        <img src="{{ url_for('static', filename='img/icon_product_seven.png') | e}}" style="width: 100%;" alt="type7">
+                    </div>
+                    <p class="text-justify mt-2">El producto se calcula a partir de los perfiles de humedad atmosférica recuperados y representa la humedad total integrada en la columna atmosférica desde la superficie hasta la parte superior de la atmósfera. Este producto proporciona información útil a los meteorólogos e hidrólogos para mejorar su conocimiento situacional en una serie de situaciones que requieren pronósticos de eventos, como lluvias intensas, inundaciones repentinas.</p>
+                    <a href="{{url_for('product', product_name='seven') | e}}" class="btn btn-outline-secondary btn-ms mt-2 header-btn">Ver en tiempo real</a>
+                    <!--<a href="#" class="btn btn-outline-secondary btn-ms mt-2 header-btn">Ver de fechas pasadas</a>-->
+                </div>
+
+                
+            </div>
+        </div>
+
+        <!--- segunda fila -->
+           
+         
+    
+
+
+    </div>
+</header>
+
+{% endblock %}

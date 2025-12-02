@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>GEO-UNI</title>
+
+    <!-- Estilos -->
+    <link rel="stylesheet" href="https://js.arcgis.com/4.32/esri/themes/light/main.css" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='geouni/site/css/style.css') }}">
+  </head>
+  <body>
+    <div id="mapDiv"></div>
+    <div id="searchContainer">
+      <div class="search-input-wrapper" style="display: flex; align-items: center; gap: 6px;">
+  <input type="text" id="searchInput" class="search-input" placeholder="Buscar lugar..." />
+  <button id="searchClearBtn" class="search-clear-btn">✕</button>
+  
+</div>
+      <div id="searchResults" class="search-results"></div>
+    </div>
+    <div id="sidebar">
+      <div id="sidebar-header"><button id="closeButton">✕</button></div>
+      <div id="sidebar-content"><div id="location-info"></div></div>
+    </div>
+    <script>
+      // Disponible globalmente para routeService.js
+      window.__ORS_API_KEY = "{{ ORS_API_KEY|safe }}";
+    </script>
+    <script src="https://js.arcgis.com/4.32/"></script>
+    <script src="{{ url_for('static', filename='geouni/site/js/mapInit.js') }}"></script>
+    <script src="{{ url_for('static', filename='geouni/site/js/mapGraphics.js') }}"></script>
+    <script src="{{ url_for('static', filename='geouni/site/js/mapEvents.js') }}"></script>
+    <script src="{{ url_for('static', filename='geouni/site/js/accordion.js') }}"></script>
+    <script src="{{ url_for('static', filename='geouni/site/js/tabs.js') }}"></script>
+    <script src="{{ url_for('static', filename='geouni/site/js/routeService.js') }}"></script>
+    <script src="{{ url_for('static', filename='geouni/site/js/sidebar.js') }}"></script>
+    <script src="{{ url_for('static', filename='geouni/site/js/search.js') }}"></script>
+    <script src="{{ url_for('static', filename='geouni/site/js/userLocation.js') }}"></script>
+    <script src="{{ url_for('static', filename='geouni/site/js/map.js') }}"></script>
+  </body>
+</html>

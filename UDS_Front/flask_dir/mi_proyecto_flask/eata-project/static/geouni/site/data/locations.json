@@ -1,0 +1,802 @@
+[
+    {
+      "id": 1,
+      "name": "Facultad de Ciencias",
+      "pagweb": "Pagina web",
+      "link": "https://fc.uni.edu.pe/",
+      "description": "Puerta #5 – Av. Túpac Amaru N° 210 Rímac. 15032 Lima, Perú",
+      "contacto": {
+        "Correo": "estadistica_fc@uni.edu.pe",
+        "Teléfono": "481-1070 anexos 5011 / 5023",
+        "Facebook": "https://www.facebook.com/FCUNIperu"
+      },
+      "asociasionesEstudiantiles": [
+        {
+          "Nombre": "Centro de Estudiantes de Ciencias (CEC-UNI)",
+          "Correo": "cec.fc@uni.edu.pe"
+        },
+        {
+          "Nombre": "Asociación Estudiantil de Astronomía",
+          "Correo": "astrofc@uni.edu.pe"
+        },
+        {
+          "Nombre": "Agrupación Estudiantil de Divulgación Científica - Isaac Asimov",
+          "Correo": "aedicifc@uni.edu.pe"
+        },
+        {
+          "Nombre": "Asociación Científica Especializada en Computación - ACECOM",
+          "Correo": "acecom@uni.edu.pe"
+        },
+        {
+          "Nombre": "Asociación Estudiantil de Instrumentación Científica - GREIC",
+          "Correo": "greic_fci@uni.edu.pe"
+        },
+        {
+          "Nombre": "Grupo Estudiantil de Matemática - GEM",
+          "Correo": "gem@uni.edu.pe"
+        },
+        {
+          "Nombre": "Grupo Estudiantil de Física Teórica - GEFT-UNI",
+          "Correo": "geft.fc@uni.edu.pe"
+        },
+        {
+          "Nombre": "Asociación Estudiantil de Física Recreativa",
+          "Correo": "fisicarecreativa@uni.edu.pe"
+        }
+      ],
+      "polygon": {
+        "rings": [
+          [
+            [-77.05084694048226, -12.017037010474956],
+            [-77.05084917135383, -12.016969043703183],
+            [-77.05071068171493, -12.016964893256992],
+            [-77.05070860066138, -12.017026456922828],
+            [-77.05054040615157, -12.017021402900546],
+            [-77.05053802937896, -12.017095280161312],
+            [-77.05050812373200, -12.017094375077692],
+            [-77.05050561542929, -12.017172290949553],
+            [-77.05056743339277, -12.017174214102136],
+            [-77.05055787754736, -12.017463023044590],
+            [-77.05061939432805, -12.017464944050284],
+            [-77.05061597660853, -12.017569652408239],
+            [-77.05090579985193, -12.017578440017543],
+            [-77.05092351095290, -12.017039335552299],
+            [-77.05084694048226, -12.017037010474956]
+          ]
+        ],
+        "spatialReference": { "wkid": 4326 }
+      },
+      "center": {
+        "longitude": -77.0507540527342,
+        "latitude": -12.01728255902599,
+        "spatialReference": { "wkid": 4326 }
+      },
+      "imageUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTDy-mwjMBhcDNMa4Ad2PnKcsQ2LQaE5VkW4Q&s"
+    },
+    {
+      "id": 2,
+  "name": "Facultad de Ingeniería Eléctrica y Electrónica",
+  "pagweb": "Sitio web oficial de la FIEE-UNI",
+  "link": "https://fiee.uni.edu.pe/index.html",
+  "description": "La Facultad de Ingeniería Eléctrica y Electrónica (FIEE) de la UNI se dedica a formar profesionales en ingeniería eléctrica, electrónica, telecomunicaciones y ciberseguridad, y cuenta con acreditación internacional ABET:contentReference[oaicite:0]{index=0}. Fue creada el 11 de junio de 1903, iniciando el desarrollo de la ingeniería eléctrica en el Perú:contentReference[oaicite:1]{index=1}. Dispone de laboratorios modernos y enfoque en innovación académica. Entre sus agrupaciones estudiantiles destacan el Centro de Estudiantes de la FIEE (CEFIEE) y el Tercio Estudiantil (TEFIEE), así como los centros culturales CCIESAM, CCPP y CCT:contentReference[oaicite:2]{index=2}. La oficina de la Facultad puede contactarse a través del correo institucional fieecontacto@uni.edu.pe y el teléfono (01) 456-7839:contentReference[oaicite:3]{index=3}.",
+  "contacto": {
+    "Correo": "fieecontacto@uni.edu.pe",
+    "Teléfono": "(01) 456-7839",
+    "Facebook": "https://www.facebook.com/FIEE.UNI.Oficial"
+  },
+  "asociasionesEstudiantiles": [
+    {
+      "Nombre": "Centro de Estudiantes de la FIEE (CEFIEE)",
+      "Correo": ""
+    },
+    {
+      "Nombre": "Tercio Estudiantil de la FIEE (TEFIEE)",
+      "Correo": ""
+    },
+    {
+      "Nombre": "Centro Cultural de Ingeniería Eléctrica Santiago Antúnez de Mayolo (CCIESAM)",
+      "Correo": "cciesam.fiee@uni.edu.pe"
+    },
+    {
+      "Nombre": "Centro Cultural Pedro Paulet (CCPP)",
+      "Correo": "ccppfiee@uni.edu.pe"
+    },
+    {
+      "Nombre": "Centro Cultural de Telecomunicaciones (CCT)",
+      "Correo": "cct@uni.edu.pe"
+    }
+      ],
+      "polygon": {
+        "rings": [
+          [
+            [-77.04947932529296, -12.017322185401197], 
+            [-77.04947730368669, -12.017231614812365],
+            [-77.04947730368669, -12.017231614812365],
+            [-77.04942013912425, -12.01723209425411],
+            [-77.04941992396769, -12.01720769317097],
+            [-77.04939275088236, -12.017207893490346],
+            [-77.04939249830785, -12.017175259776348],
+            [-77.04927947811635, -12.017176128985101],
+            [-77.04927972537347, -12.017209456953713],
+            [-77.04925074095506, -12.017209644194125],
+            [-77.04925096526583, -12.01723285512],
+            [-77.04920024177778, -12.017233281976596],
+            [-77.04920173900466, -12.017326625939361],
+            [-77.04919277527424, -12.017373307050068],
+            [-77.04900046830991, -12.017323834490433], 
+            [-77.04900064265456, -12.017209376205999],
+            [-77.04868560452871, -12.017215827854072],
+            [-77.04868053067878, -12.017326184126055],
+            [-77.04868053067878, -12.01747908646182], 
+            [-77.0486757446188, -12.017382067796914], 
+            [-77.04867791825194, -12.01747908646182], 
+            [-77.04902875127075, -12.01747666259449],
+            [-77.04902978323787, -12.017447112907796],
+            [-77.04904928635573, -12.017449733490713],
+            [-77.04916426206883, -12.017574248261324],
+            [-77.04928057392969, -12.017577171862634],
+            [-77.04928300616889, -12.017522538471692],
+            [-77.04951027288496, -12.017518329392132],
+            [-77.04951357943374, -12.017441584042947]
+            
+          ]
+        ],
+        "spatialReference": { "wkid": 4326 }
+      },
+      "center": {
+        "longitude": -77.04906093872779,
+        "latitude": -12.017396697645827,
+        "spatialReference": { "wkid": 4326 }
+      },
+      "imageUrl": "https://acreditacion.uni.edu.pe/wp-content/uploads/2018/11/FIEE-8.jpg"
+    },
+    {
+      "id": 3,
+      "name": "Centro de Investigación y biblioteca de la Facultad de Ciencias",
+      "pagweb": "Pagina web",
+      "link": "https://fc.uni.edu.pe/investigacion/unidad-de-investigacion/",
+      "description": "El Centro Histórico de Lima fue declarado Patrimonio de la Humanidad por la UNESCO en 1988. Cuenta con impresionantes edificios coloniales y es el centro gubernamental del Perú.",
+      "contacto": {
+        "Correo": "estadistica_fc@uni.edu.pe",
+        "Teléfono": "481-1070 anexos 5011 / 5023",
+        "Facebook": "https://www.facebook.com/FCUNIperu"
+      },
+      "asociasionesEstudiantiles": [
+        {
+          "Nombre": "Centro de Estudiantes de Ciencias (CEC-UNI)",
+          "Correo": "cec.fc@uni.edu.pe"
+        },
+        {
+          "Nombre": "Asociación Estudiantil de Astronomía",
+          "Correo": "astrofc@uni.edu.pe"
+        },
+        {
+          "Nombre": "Agrupación Estudiantil de Divulgación Científica - Isaac Asimov",
+          "Correo": "aedicifc@uni.edu.pe"
+        },
+        {
+          "Nombre": "Asociación Científica Especializada en Computación - ACECOM",
+          "Correo": "acecom@uni.edu.pe"
+        },
+        {
+          "Nombre": "Asociación Estudiantil de Instrumentación Científica - GREIC",
+          "Correo": "greic_fci@uni.edu.pe"
+        },
+        {
+          "Nombre": "Grupo Estudiantil de Matemática - GEM",
+          "Correo": "gem@uni.edu.pe"
+        },
+        {
+          "Nombre": "Grupo Estudiantil de Física Teórica - GEFT-UNI",
+          "Correo": "geft.fc@uni.edu.pe"
+        },
+        {
+          "Nombre": "Asociación Estudiantil de Física Recreativa",
+          "Correo": "fisicarecreativa@uni.edu.pe"
+        }
+      ],
+      "polygon": {
+        "rings": [
+          [
+            [-77.05036458760605, -12.01720356864618],
+            [-77.05017817407746, -12.017204880360516],
+            [-77.05017884462973, -12.017190451502357],
+            [-77.05016006916642, -12.017190451502357],
+            [-77.05016073971868, -12.017182581215765],
+            [-77.04978120713889, -12.017185860501872],
+            [-77.04978053658662, -12.017204224503349],
+            [-77.04974164455548, -12.01720356864618],
+            [-77.04974164455548, -12.017189139787945],
+            [-77.04967794209068, -12.017190451502357],
+            [-77.04967727153841, -12.017207503789201],
+            [-77.04962027459622, -12.017208815503526],
+            [-77.04961491017814, -12.017219965075057],
+            [-77.04962228625301, -12.017425904136687],
+            [-77.0496913531359, -12.017429183419829],
+            [-77.0496913531359, -12.017454761827002],
+            [-77.04973292737608, -12.017455417683573],
+            [-77.04972957461479, -12.017440988838823],
+            [-77.04994951575642, -12.017442300552027],
+            [-77.04994884520416, -12.017428527563208],
+            [-77.04995689183129, -12.017423280710137],
+            [-77.04995957404034, -12.017315064342835],
+            [-77.05000248938505, -12.017315064342835],
+            [-77.05000651269863, -12.017336051762934],
+            [-77.05007960289508, -12.017336051762934],
+            [-77.05008697896996, -12.01736490946288],
+            [-77.05016476303224, -12.01736490946288],
+            [-77.05017616242068, -12.017393111303027],
+            [-77.05020834892922, -12.017393767159737],
+            [-77.05020969003372, -12.017444268121789],
+            [-77.0503639170538,  -12.017441644695419]
+          ]
+        ],
+        "spatialReference": { "wkid": 4326 }
+      },
+      "center": {
+        "longitude": -77.05000424338385,
+        "latitude": -12.017265580046145,
+        "spatialReference": { "wkid": 4326 }
+      },
+      "imageUrl": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEj1dvcLcrrdvrZfwGD1V6bejPlFrrS2862U42KRaGjnrOn4psMOuJS_d9Y5CkRJYDZMQxIlHNMaIiownP2aCKehoxJnG43o_lZdV_NRtLUhYt4smqV0v7HtEm4s31n262qAnlDSY8DjzTU/s2048/FC.JPEG"
+    },
+    {
+      "id": 4,
+      "name": "Pabellon Central",
+      "pagweb": "Pagina web",
+      "link": "https://portal.uni.edu.pe/",
+      "description": "El Centro Histórico de Lima fue declarado Patrimonio de la Humanidad por la UNESCO en 1988. Cuenta con impresionantes edificios coloniales y es el centro gubernamental del Perú.",
+      "contacto": {
+        "Correo": "estadistica_fc@uni.edu.pe",
+        "Teléfono": "481-1070 anexos 5011 / 5023",
+        "Facebook": "https://www.facebook.com/UNIoficial.pe"
+      },
+      "asociasionesEstudiantiles": [
+        {
+          "Nombre": "Centro de Estudiantes de Ciencias (CEC-UNI)",
+          "Correo": "cec.fc@uni.edu.pe"
+        },
+        {
+          "Nombre": "Asociación Estudiantil de Astronomía",
+          "Correo": "astrofc@uni.edu.pe"
+        },
+        {
+          "Nombre": "Agrupación Estudiantil de Divulgación Científica - Isaac Asimov",
+          "Correo": "aedicifc@uni.edu.pe"
+        },
+        {
+          "Nombre": "Asociación Científica Especializada en Computación - ACECOM",
+          "Correo": "acecom@uni.edu.pe"
+        },
+        {
+          "Nombre": "Asociación Estudiantil de Instrumentación Científica - GREIC",
+          "Correo": "greic_fci@uni.edu.pe"
+        },
+        {
+          "Nombre": "Grupo Estudiantil de Matemática - GEM",
+          "Correo": "gem@uni.edu.pe"
+        },
+        {
+          "Nombre": "Grupo Estudiantil de Física Teórica - GEFT-UNI",
+          "Correo": "geft.fc@uni.edu.pe"
+        },
+        {
+          "Nombre": "Asociación Estudiantil de Física Recreativa",
+          "Correo": "fisicarecreativa@uni.edu.pe"
+        }
+      ],
+      "polygon": {
+        "rings": [
+          [
+            [-77.04883818161134, -12.023257183901803], 
+            [-77.04875033921802, -12.023317521398585], 
+            [-77.04862896927038, -12.023181762012415],
+            [-77.04854112693353, -12.02325259300437], 
+            [-77.04867724902921, -12.023409995145483], 
+            [-77.04814646628643, -12.023882207361577], 
+            [-77.04799089817838, -12.023716935404837], 
+            [-77.04790238528935, -12.023793012984832], 
+            [-77.04803917793606, -12.023944512239552], 
+            [-77.04796675829903, -12.024010096308896], 
+            [-77.04813372580449, -12.02418914073003], 
+            [-77.0489990829504, -12.023425423783603] 
+          ]
+        ],
+        "spatialReference": { "wkid": 4326 }
+      },
+      "center": {
+        "longitude": -77.04850153316394,
+        "latitude": -12.023720552538036, 
+        "spatialReference": { "wkid": 4326 }
+      },
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/c/c5/UNI_Pabell%C3%B3n_Central_2017.jpg"
+    },
+    {
+       "id": 5,
+  "name": "Facultad de Ingeniería Económica, Estadística y Ciencias Sociales (FIEECS)",
+  "pagweb": "http://www.fieecs.uni.edu.pe",
+  "link": "https://portal.uni.edu.pe/",
+  "description": "La Facultad de Ingeniería Económica, Estadística y Ciencias Sociales (FIEECS) es la única facultad en Lima Metropolitana dedicada a la formación de profesionales en Ingeniería Económica e Ingeniería Estadística; es una entidad eficiente, emprendedora e innovadora al servicio del desarrollo nacional, con educación de excelencia:contentReference[oaicite:0]{index=0}.",
+  "contacto": {
+    "Correo": "fieecs@uni.edu.pe",
+    "Teléfono": "482 0626 Anexo 5416",
+    "Facebook": "https://www.facebook.com/unifieecs"
+  },
+  "asociasionesEstudiantiles": [
+    {
+      "Nombre": "Centro de Estudiantes de la FIEECS (CEIEE)",
+      "Correo": "webmaster.fieecs@uni.edu.pe"
+    },
+    {
+      "Nombre": "Centro Cultural Luis Felipe de las Casas",
+      "Correo": "webmaster.fieecs@uni.edu.pe"
+    },
+    {
+      "Nombre": "Centro Cultural Karl Pearson (CCKP)",
+      "Correo": "webmaster.fieecs@uni.edu.pe"
+    },
+    {
+      "Nombre": "Círculo de Mercados Capitales (CMK)",
+      "Correo": "webmaster.fieecs@uni.edu.pe"
+    },
+    {
+      "Nombre": "Círculo Académico de Planificación y Proyectos (CAPP)",
+      "Correo": "webmaster.fieecs@uni.edu.pe"
+    }
+      ],
+      "polygon": {
+        "rings": [
+          [
+            [-77.049295, -12.019561], 
+            [-77.049291, -12.019221], 
+            [-77.048797, -12.019195],
+            [-77.048793, -12.019268], 
+            [-77.048763, -12.019272], 
+            [-77.048747, -12.019565], 
+            [-77.048962, -12.019583], 
+            [-77.04907, -12.019751], 
+            [-77.049165, -12.019749], 
+            [-77.049167, -12.019557]
+          ]
+        ],
+        "spatialReference": { "wkid": 4326 }
+      },
+      "center": {
+        "longitude": -77.049045,
+        "latitude": -12.01943, 
+        "spatialReference": { "wkid": 4326 }
+      },
+      "imageUrl": "https://acreditacion.uni.edu.pe/wp-content/uploads/2015/04/FIECS-21.jpg"
+    },
+    {
+      "id": 6,
+      "name": "Facultad de Ingeniería de Petróleo, Gas Natural y Petroquímica (FIP)",
+      "pagweb": "Pagina web",
+      "link": "https://www.fip.uni.edu.pe/",
+      "description": "El Centro Histórico de Lima fue declarado Patrimonio de la Humanidad por la UNESCO en 1988. Cuenta con impresionantes edificios coloniales y es el centro gubernamental del Perú.",
+      "contacto": {
+        "Correo": "estadistica_fc@uni.edu.pe",
+        "Teléfono": "481-1070 anexos 5011 / 5023",
+        "Facebook": "https://www.facebook.com/UNIoficial.pe"
+      },
+      "asociasionesEstudiantiles": [
+        {
+          "Nombre": "Centro de Estudiantes de Ciencias (CEC-UNI)",
+          "Correo": "cec.fc@uni.edu.pe"
+        },
+        {
+          "Nombre": "Asociación Estudiantil de Astronomía",
+          "Correo": "astrofc@uni.edu.pe"
+        },
+        {
+          "Nombre": "Agrupación Estudiantil de Divulgación Científica - Isaac Asimov",
+          "Correo": "aedicifc@uni.edu.pe"
+        },
+        {
+          "Nombre": "Asociación Científica Especializada en Computación - ACECOM",
+          "Correo": "acecom@uni.edu.pe"
+        },
+        {
+          "Nombre": "Asociación Estudiantil de Instrumentación Científica - GREIC",
+          "Correo": "greic_fci@uni.edu.pe"
+        },
+        {
+          "Nombre": "Grupo Estudiantil de Matemática - GEM",
+          "Correo": "gem@uni.edu.pe"
+        },
+        {
+          "Nombre": "Grupo Estudiantil de Física Teórica - GEFT-UNI",
+          "Correo": "geft.fc@uni.edu.pe"
+        },
+        {
+          "Nombre": "Asociación Estudiantil de Física Recreativa",
+          "Correo": "fisicarecreativa@uni.edu.pe"
+        }
+      ],
+      "polygon": {
+        "rings": [
+          [
+            [-77.0513, -12.016499], 
+            [-77.0505, -12.016492], 
+            [-77.050503, -12.016635],
+            [-77.050679, -12.016722], 
+            [-77.051343, -12.016722], 
+            [-77.051364, -12.016621], 
+            [-77.051309, -12.016625]
+          ]
+        ],
+        "spatialReference": { "wkid": 4326 }
+      },
+      "center": {
+        "longitude": -77.05097,
+        "latitude": -12.016586, 
+        "spatialReference": { "wkid": 4326 }
+      },
+      "imageUrl": "https://www.fipgnp.uni.edu.pe/wp-content/uploads/2022/11/fip2-copia-mejorado-1.jpg"
+    },
+    {
+      "id": 7,
+  "name": "Facultad de Ingeniería Industrial y de Sistemas (FIIS)",
+  "pagweb": "Pagina web",
+  "link": "https://www.fiis.uni.edu.pe/",
+  "description": "La Facultad de Ingeniería Industrial y de Sistemas (FIIS-UNI) es una de las once facultades de la Universidad Nacional de Ingeniería de Lima, Perú, fundada en 1901. Ofrece los programas de Ingeniería Industrial e Ingeniería de Sistemas en pregrado, así como maestrías y doctorados en esas especialidades.",
+  "contacto": {
+    "Correo": "fiis@uni.edu.pe",
+    "Tel\u00e9fono": "481-1424 anexo 5226",
+    "Facebook": "https://www.facebook.com/FacultaddeIngenieriaIndustrialydeSistemas/"
+  },
+  "asociasionesEstudiantiles": [
+    {
+      "Nombre": "Tercio Estudiantil FIIS (TEFIIS)",
+      "Correo": "tefiis@uni.edu.pe"
+    },
+    {
+      "Nombre": "Centro de Estudiantes FIIS (CEIIS)",
+      "Correo": "ceiis@uni.edu.pe"
+    },
+    {
+      "Nombre": "Centro Cultural Avanzada Tecnolog\u00eda (CCAT)",
+      "Correo": "ccat.fiis@uni.edu.pe"
+    },
+    {
+      "Nombre": "Centro Cultural N\u00facleo (CCN)",
+      "Correo": "nucleofiis@uni.edu.pe"
+    }
+      ],
+      "polygon": {
+        "rings": [
+          [
+            [-77.050684, -12.015327], 
+            [-77.049961, -12.015327], 
+            [-77.049963, -12.015523],
+            [-77.050673, -12.015521]
+          ]
+        ],
+        "spatialReference": { "wkid": 4326 }
+      },
+      "center": {
+        "longitude": -77.050316,
+        "latitude": -12.015418, 
+        "spatialReference": { "wkid": 4326 }
+      },
+      "imageUrl": "https://acreditacion.uni.edu.pe/wp-content/uploads/2018/10/FIIS-2.jpg"
+    },
+    {
+       "id": 8,
+  "name": "Facultad de Arquitectura, Urbanismo y Artes",
+  "pagweb": "Pagina web",
+  "link": "https://faua.uni.edu.pe/",
+  "description": "La Facultad de Arquitectura, Urbanismo y Artes (FAUA) de la Universidad Nacional de Ingeniería (UNI) es la primera escuela profesional de arquitectura en el Perú, fundada en 1910. Se ubica en Lima, cuya zona monumental –el Centro Histórico– fue declarada Patrimonio de la Humanidad por la UNESCO en 1988, y alberga numerosos monumentos arquitectónicos coloniales como el convento de San Francisco.",
+  "contacto": {
+    "Correo": "mesadepartes_faua@uni.edu.pe",
+    "Teléfono": "(01) 481-1070",
+    "Facebook": "https://www.facebook.com/faua.uni.oficial/?locale=es_LA"
+  },
+  "asociasionesEstudiantiles": [
+    {
+      "Nombre": "Centro de Estudiantes de Arquitectura (CEA-FAUA)",
+      "Correo": "cea@uni.edu.pe"
+    },
+    {
+      "Nombre": "Tercio de Estudiantes de Arquitectura (TEA-FAUA)",
+      "Correo": "tea.faua@uni.edu.pe"
+    },
+    {
+      "Nombre": "Club de Cine FAUA (CCAM-FAUA)",
+      "Correo": "ccam.uni@uni.edu.pe"
+    }
+      ],
+      "polygon": {
+        "rings": [
+          [
+            [-77.050495, -12.020983], 
+            [-77.050445, -12.021091], 
+            [-77.049586, -12.021107],
+            [-77.049573, -12.021331],
+            [-77.049704, -12.021344], 
+            [-77.049701, -12.0215], 
+            [-77.049758, -12.021499], 
+            [-77.049763, -12.021854], 
+            [-77.050379, -12.021841],
+            [-77.050539, -12.021529],
+            [-77.050631, -12.021001]
+          ]
+        ],
+        "spatialReference": { "wkid": 4326 }
+      },
+      "center": {
+        "longitude": -77.050053,
+        "latitude": -12.021455, 
+        "spatialReference": { "wkid": 4326 }
+      },
+      "imageUrl": "https://upfaua.uni.edu.pe/img/fac_arqui.png"
+    },
+    {
+      "id": 9,
+  "name": "Facultad de Ingenier\u00eda Civil (FIC)",
+  "pagweb": "P\u00e1gina web",
+  "link": "https://fic.uni.edu.pe/",
+  "description": "La Facultad de Ingenier\u00eda Civil de la UNI es la Escuela de Ingenieros m\u00e1s antigua del Per\u00fa. Sus egresados han desarrollado ingenier\u00eda nacional e internacional, adem\u00e1s de desempe\u00f1ar importantes cargos en la administraci\u00f3n p\u00fablica y empresas privadas. Es Alma Mater de la moderna Ingenier\u00eda Civil en el Per\u00fa, cuenta con docentes calificados y estudiantes con un alto sentido de superaci\u00f3n, adem\u00e1s de diversos laboratorios de apoyo a la formaci\u00f3n e investigaci\u00f3n.",
+  "contacto": {
+    "Correo": "secretariafic@uni.edu.pe",
+    "Tel\u00e9fono": "1 481 9845 - Anexo 4020",
+    "Facebook": "https://www.facebook.com/p/Facultad-de-Ingenier\u00eda-Civil-UNI-100063621094618/?locale=es_LA"
+  },
+      "asociasionesEstudiantiles": [
+       {
+      "Nombre": "Cap\u00edtulo Estudiantil de Am\u00e9rica Concrete - ACI-UNI",
+      "Correo": "aci@uni.edu.pe"
+    },
+    {
+      "Nombre": "Grupo Estudiantil de An\u00e1lisis y Dise\u00f1o Estructural - GADEST",
+      "Correo": "gadest@uni.edu.pe"
+    },
+    {
+      "Nombre": "Grupo Estudiantil Aplicado a la Hidr\u00e1ulica e Hidrolog\u00eda - GEAHH",
+      "Correo": "geahh@uni.edu.pe"
+    },
+    {
+      "Nombre": "Grupo Estudiantil de Gesti\u00f3n, Innovaci\u00f3n y Tecnolog\u00eda en la Construcci\u00f3n - GIT",
+      "Correo": "gitconstruccion@uni.edu.pe"
+    },
+    {
+      "Nombre": "Grupo Estudiantil Instituto Vial Ibero Americano - GE IVIA",
+      "Correo": "geivia@uni.edu.pe"
+    },
+    {
+      "Nombre": "Grupo Estudiantil Aplicado a la Ingenier\u00eda Geot\u00e9cnica - GEOGROUP",
+      "Correo": "geogroup@uni.edu.pe"
+    },
+    {
+      "Nombre": "Grupo de Investigaci\u00f3n en Gerencia LEAN - LEAN UNI",
+      "Correo": "lean-uni@uni.edu.pe"
+    }
+      ],
+      "polygon": {
+        "rings": [
+          [
+            [-77.049369, -12.021094], 
+            [-77.04844, -12.021104], 
+            [-77.048462, -12.021876],
+            [-77.04882, -12.021869],
+            [-77.048821, -12.022267], 
+            [-77.049153, -12.022263],
+            [-77.049151, -12.022064],
+            [-77.049075, -12.022065],
+            [-77.04907, -12.021866],
+            [-77.049389, -12.021857]
+          ]
+        ],
+        "spatialReference": { "wkid": 4326 }
+      },
+      "center": {
+        "longitude": -77.048971,
+        "latitude": -12.021472, 
+        "spatialReference": { "wkid": 4326 }
+      },
+      "imageUrl": "https://admision.uni.edu.pe/wp-content/uploads/2022/10/fic-1024x682.png"
+    },
+    {
+      "id": 10,
+  "name": "Facultad de Ingeniería Minera y Metalúrgica (FIGMM)",
+  "pagweb": "Pagina web",
+  "link": "https://www.figmm.uni.edu.pe/",
+  "description": "La Facultad de Ingeniería Minera y Metalúrgica (FIGMM) de la UNI, fundada en 1876, ofrece los programas de Ingeniería de Minas, Geológica y Metalúrgica. Sus egresados se desempeñan en el sector minero, geológico y metalúrgico a nivel nacional e internacional.",
+  "contacto": {
+    "Correo": "decano_figmm@uni.edu.pe",
+    "Tel\u00e9fono": "481-1070 anexos 4200 / 4240",
+    "Facebook": "https://www.facebook.com/OFICIALFIGMM/"
+  },
+  "asociasionesEstudiantiles": [
+    {
+      "Nombre": "Centro de Estudiantes de Ingeniería Geológica, Minera y Metalúrgica (CEIGMM)",
+      "Correo": "ceigmm@uni.edu.pe"
+    },
+    {
+      "Nombre": "Capítulo Estudiantil de la Sociedad de Minería, Metalurgia y Exploración (SME) - FIGMM UNI",
+      "Correo": "sme@uni.edu.pe"
+    }
+      ],
+      "polygon": {
+        "rings": [
+          [
+            [-77.047679, -12.019299], 
+            [-77.047522, -12.019294], 
+            [-77.047499, -12.01993],
+            [-77.047567, -12.019933],
+            [-77.047544, -12.02021], 
+            [-77.047173, -12.020217],
+            [-77.047029, -12.020267],
+            [-77.047078, -12.020514],
+            [-77.046961, -12.020539],
+            [-77.047031, -12.020931],
+            [-77.047445, -12.020878],
+            [-77.047432, -12.020767],
+            [-77.047744, -12.020768],
+            [-77.047735, -12.020423],
+            [ -77.04787, -12.020432],
+            [-77.04789, -12.020407],
+            [-77.047908, -12.02036],
+            [-77.047914, -12.020302],
+            [ -77.047906, -12.020256],
+            [-77.047891, -12.020217],
+            [-77.047737, -12.020267],
+            [-77.047732, -12.019983],
+            [-77.04768, -12.019982]
+          ]
+        ],
+        "spatialReference": { "wkid": 4326 }
+      },
+      "center": {
+        "longitude": -77.047639,
+        "latitude": -12.020285, 
+        "spatialReference": { "wkid": 4326 }
+      },
+      "imageUrl": "https://scontent.flim25-1.fna.fbcdn.net/v/t39.30808-6/461698477_2942698282545833_4113460665191134227_n.jpg?_nc_cat=103&ccb=1-7&_nc_sid=0b6b33&_nc_ohc=Q8-vfOGyBCwQ7kNvwFF4Wnh&_nc_oc=Adkg6GDul4FOw0i4oPMl4ZjIY5v1ACgW1cRTQJSETVKRfxzAKBSSg97QjMBJEHcYt94&_nc_zt=23&_nc_ht=scontent.flim25-1.fna&_nc_gid=6jxKIdhMfFLfK2knuVfA-Q&oh=00_AfKKv16nMg47hL130mor8azP6mykoTQYOyqmFkNqSI4iUA&oe=682F24D5"
+    },
+    {
+       "id": 11,
+  "name": "Facultad de Ingeniería Química y Textil (FIQT)",
+  "pagweb": "Pagina web",
+  "link": "https://www.fiqt.uni.edu.pe/",
+  "description": "La Facultad de Ingeniería Química y Textil (FIQT) ofrece las especialidades de Ingeniería Química e Ingeniería Textil; la UNI es la única universidad en el país que brinda Ingeniería Textil. Sus orígenes se remontan a la antigua Escuela Nacional de Ingenieros de 1913, habiendo recibido su nombre actual en 2003.",
+  "contacto": {
+    "Correo": "decanato_fiqt@uni.edu.pe",
+    "Teléfono": "481-7919 anexo 5602",
+    "Facebook": "https://www.facebook.com/fiqt.uni.oficial/?locale=es_LA"
+  },
+  "asociacionesEstudiantiles": [
+    {
+      "Nombre": "Centro de Estudiantes de la Facultad de Ingeniería Química y Textil (CEFIQT)",
+      "Correo": "cefiqt@uni.edu.pe"
+    },
+    {
+      "Nombre": "Asociación Cultural de Ingeniería Textil (ACIT)",
+      "Correo": "acit.fiqt@uni.edu.pe"
+    },
+    {
+      "Nombre": "American Institute of Chemical Engineers (AIChE) - Capítulo UNI",
+      "Correo": "aiche@uni.edu.pe"
+    },
+    {
+      "Nombre": "Centro Cultural Óscar Almenara (CCOA)",
+      "Correo": "ccoafiqt@uni.edu.pe"
+    }
+      ],
+      "polygon": {
+        "rings": [
+          [
+            [-77.047529, -12.023317], 
+            [-77.046652, -12.02342], 
+            [-77.046631, -12.023452],
+            [-77.046571, -12.023433],
+            [-77.046735, -12.023033], 
+            [-77.046848, -12.023],
+            [-77.04684, -12.022916],
+            [-77.046881, -12.022906],
+            [-77.046882, -12.022841],
+            [-77.046994, -12.022724],
+            [-77.047199, -12.022678],
+            [-77.047303, -12.02245],
+            [-77.047502, -12.022421],
+            [-77.047526, -12.022599],
+            [ -77.047598, -12.022605],
+            [-77.047626, -12.022953],
+            [-77.04749, -12.022979]
+          ]
+        ],
+        "spatialReference": { "wkid": 4326 }
+      },
+      "center": {
+        "longitude": -77.047248,
+        "latitude": -12.02314, 
+        "spatialReference": { "wkid": 4326 }
+      },
+      "imageUrl": "https://scontent.flim15-2.fna.fbcdn.net/v/t39.30808-6/468397031_578957801280886_2628028298474732803_n.jpg?_nc_cat=102&ccb=1-7&_nc_sid=cc71e4&_nc_ohc=-DoyBPtuLXcQ7kNvwHR-Mex&_nc_oc=AdlIZDEJjVUO2YJHg45j5aaV6-7z3ewCj3QU72LdKUQToqYoNJyPtw46u5wbH5mEatc&_nc_zt=23&_nc_ht=scontent.flim15-2.fna&_nc_gid=lMgsCRG6yBeYxFj8WnELqw&oh=00_AfJ0l3efSRVlRyrl5JMpFoj4UHYGVZG6iUziDVVvMrJhMA&oe=682F2CAE"
+    },
+    {
+       "id": 12,
+  "name": "Facultad de Ingeniería Mecánica y Mecatrónica (FIM)",
+  "pagweb": "Página web",
+  "link": "https://fim.uni.edu.pe/",
+  "description": "La Facultad de Ingeniería Mecánica y Mecatrónica (FIM) de la UNI forma líderes en Ingeniería Mecánica, Mecánica Eléctrica, Mecatrónica, Naval y Aeroespacial, con énfasis en investigación, innovación y gestión:contentReference[oaicite:0]{index=0}. Su misión institucional es formar profesionales con valores éticos que contribuyan al desarrollo tecnológico del país y del medio ambiente:contentReference[oaicite:1]{index=1}.",
+  "contacto": {
+    "Correo": "fim@uni.edu.pe",
+    "Teléfono": "(51) 4811070",
+    "Facebook": "https://www.facebook.com/UNIFIMoficial.pe"
+  },
+  "asociasionesEstudiantiles": [
+    {
+      "Nombre": "DESI (Desarrollo, Ecotecnología, Sostenibilidad e Innovación)",
+      "Correo": "desi@uni.edu.pe"
+    },
+    {
+      "Nombre": "Naylamp UNI",
+      "Correo": "naylampuni@gmail.com"
+    },
+    {
+      "Nombre": "CEDIME (Centro de Desarrollo e Investigación en Mecánica Eléctrica)",
+      "Correo": "cedime@uni.edu.pe"
+    },
+    {
+      "Nombre": "CEDIM (Centro de Desarrollo e Investigación en Mecatrónica)",
+      "Correo": "cedim@uni.edu.pe"
+    },
+    {
+      "Nombre": "APEIN (Asociación Peruana de Estudiantes de Ingeniería Naval)",
+      "Correo": "apein@uni.edu.pe"
+    },
+    {
+      "Nombre": "CIIM (Centro de Investigación en Ingeniería Mecánica)",
+      "Correo": "ciim.fim@uni.edu.pe"
+    },
+    {
+      "Nombre": "ACIA (Asociación Cultural Isaac Asimov)",
+      "Correo": "acia@uni.edu.pe"
+    },
+    {
+      "Nombre": "CEFIM (Centro de Estudiantes de la Facultad de Ingeniería Mecánica)",
+      "Correo": "cefim@uni.edu.pe"
+    }
+      ],
+      "polygon": {
+        "rings": [
+          [
+            [-77.046588, -12.023635], 
+            [-77.046605, -12.023821], 
+            [-77.04664, -12.023827],
+            [-77.04669, -12.02427],
+            [-77.046622, -12.024285], 
+            [-77.046638, -12.024465],
+            [-77.046798, -12.024656],
+            [-77.046911, -12.024556],
+            [-77.046762, -12.024378],
+            [-77.047114, -12.024336],
+            [-77.047124, -12.024451],
+            [-77.04759, -12.024399],
+            [-77.047583, -12.024219],
+            [-77.0474, -12.024237],
+            [ -77.047381, -12.024],
+            [-77.047614, -12.023971],
+            [-77.047608, -12.023935],
+            [-77.047579, -12.023943],
+            [-77.047552, -12.023904],
+            [-77.047538, -12.023797],
+            [-77.047442, -12.023801],
+            [-77.047432, -12.02372],
+            [-77.047238, -12.023742],
+            [-77.047254, -12.023649],
+            [-77.047244, -12.023546]
+          ]
+        ],
+        "spatialReference": { "wkid": 4326 }
+      },
+      "center": {
+        "longitude": -77.047049,
+        "latitude": -12.024168, 
+        "spatialReference": { "wkid": 4326 }
+      },
+      "imageUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT2b-GiF73xFtq-ecIX9OhKf6k9_dtOhP8qjg&s"
+    }
+  ]
+  

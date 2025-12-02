@@ -1,0 +1,967 @@
+<!DOCTYPE html>
+<html lang="es" class="h-100">
+<head>
+    <!-- Meta Tags Esenciales -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    
+    <!-- SEO y Meta Information -->
+    <title>{% block title %}EATA - Estación de Alerta Temprana Atmosférica{% endblock %}</title>
+    <meta name="description" content="{% block description %}Estación de Alerta Temprana Atmosférica (EATA) - Sistema de alerta temprana atmosférica de la UNI para la prevención de desastres naturales en el Perú. Monitoreo 24/7 con inteligencia artificial.{% endblock %}">
+    <meta name="keywords" content="{% block keywords %}EATA, alerta temprana, meteorología, desastres naturales, Perú, UNI, inteligencia artificial, GOES-R, ciclón Yaku{% endblock %}">
+    <meta name="author" content="EATA - UNI">
+    <meta name="robots" content="index, follow">
+    <meta name="theme-color" content="#2c5aa0">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="{{ request.url }}">
+    <meta property="og:title" content="{% block og_title %}EATA - Estación de Alerta Temprana Atmosférica{% endblock %}">
+    <meta property="og:description" content="{% block og_description %}Sistema de alerta temprana atmosférica para la prevención de desastres naturales en el Perú{% endblock %}">
+    <meta property="og:image" content="{{ url_for('static', filename='img/og-image.png', _external=True) | e }}">
+    <meta property="og:site_name" content="EATA">
+    <meta property="og:locale" content="es_PE">
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="{{ request.url }}">
+    <meta property="twitter:title" content="{% block twitter_title %}EATA - Estación de Alerta Temprana Atmosférica{% endblock %}">
+    <meta property="twitter:description" content="{% block twitter_description %}Sistema de alerta temprana atmosférica para la prevención de desastres naturales en el Perú{% endblock %}">
+    <meta property="twitter:image" content="{{ url_for('static', filename='img/twitter-image.png', _external=True) | e }}">
+    
+    <!-- Favicons -->
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='img/favicon.ico') | e }}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ url_for('static', filename='favicon/favicon-16x16.png') | e }}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='favicon/favicon-32x32.png') | e }}">
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ url_for('static', filename='favicon/apple-touch-icon.png') | e }}">
+    <link rel="manifest" href="{{ url_for('static', filename='manifest.json') | e }}">
+    
+    <!-- DNS Prefetch para optimización -->
+    <link rel="dns-prefetch" href="//fonts.googleapis.com">
+    <link rel="dns-prefetch" href="//fonts.gstatic.com">
+    <link rel="dns-prefetch" href="//cdnjs.cloudflare.com">
+    <link rel="dns-prefetch" href="//cdn.jsdelivr.net">
+    
+    <!-- Preconnect para recursos críticos -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+    
+    <!-- Google Fonts Optimizado -->
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Titillium+Web:wght@200;300;400;500;600;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Titillium+Web:wght@200;300;400;500;600;700&display=swap">
+    </noscript>
+    
+    <!-- CSS Framework -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    
+    <!-- Font Awesome -->
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    </noscript>
+    
+    <!-- CSS Custom -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') | e }}">
+    
+    <!-- CSS Crítico Inline -->
+    <style>
+        /* CSS Crítico para evitar FOUC */
+        :root {
+            --primary-color: #2c5aa0;
+            --primary-dark: #1e3d6f;
+            --secondary-color: #34495e;
+            --accent-color: #3498db;
+            --success-color: #27ae60;
+            --warning-color: #f39c12;
+            --danger-color: #e74c3c;
+            --light-bg: #f8f9fa;
+            --dark-bg: #2c3e50;
+            --text-color: #2c3e50;
+            --text-muted: #6c757d;
+            --border-color: #dee2e6;
+            --shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 10px 30px rgba(0, 0, 0, 0.15);
+            --transition: all 0.3s ease;
+            --border-radius: 8px;
+            --text-dark:#2c3e50;
+            --text-light:#6c757d;
+            --border-radius-lg:16px;
+        }
+        
+        * {
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Titillium Web', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: #ffffff;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            overflow-x: hidden;
+        }
+        
+        /* Loading spinner */
+        .page-loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease-out, visibility 0.5s ease-out;
+        }
+        body.home .main-content{
+    min-height: calc(100vh - 250px);   /* menos alto ⇒ menos hueco */
+}
+        .page-loader.hidden {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+        
+        .spinner {
+            width: 60px;
+            height: 60px;
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            border-top: 4px solid #ffffff;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        /* Skip to main content para accesibilidad */
+        .skip-link {
+            position: absolute;
+            top: -40px;
+            left: 6px;
+            background: var(--primary-color);
+            color: white;
+            padding: 8px 16px;
+            text-decoration: none;
+            border-radius: 0 0 var(--border-radius) var(--border-radius);
+            z-index: 10000;
+            transform: translateY(-100%);
+            transition: transform 0.3s ease;
+            font-weight: 500;
+        }
+        
+        .skip-link:focus {
+            transform: translateY(0%);
+            color: white;
+        }
+        
+        /* Navbar mejorado */
+        .navbar {
+            backdrop-filter: blur(20px);
+            background-color: rgba(248, 249, 250, 0.95) !important;
+            box-shadow: var(--shadow);
+            border-bottom: 1px solid var(--border-color);
+            transition: var(--transition);
+            padding: 0.75rem 0;
+        }
+        
+        .navbar.scrolled {
+            background-color: rgba(255, 255, 255, 0.98) !important;
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .navbar-brand {
+            font-weight: 700;
+            color: var(--primary-color) !important;
+            font-size: 1.5rem;
+            text-decoration: none;
+            transition: var(--transition);
+            letter-spacing: -0.5px;
+        }
+        
+        .navbar-brand:hover {
+            color: var(--primary-dark) !important;
+            transform: translateY(-1px);
+        }
+        
+        .nav-link {
+            font-weight: 500;
+            color: var(--text-color) !important;
+            padding: 0.5rem 1rem !important;
+            margin: 0 0.25rem;
+            border-radius: var(--border-radius);
+            transition: var(--transition);
+            position: relative;
+        }
+        
+        .nav-link:hover,
+        .nav-link.active {
+            color: var(--primary-color) !important;
+            background-color: rgba(44, 90, 160, 0.1);
+            transform: translateY(-1px);
+        }
+        
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            width: 0;
+            height: 2px;
+            background: var(--primary-color);
+            transition: var(--transition);
+            transform: translateX(-50%);
+        }
+        
+        .nav-link:hover::after,
+        .nav-link.active::after {
+            width: 80%;
+        }
+        
+        
+        
+        /* Logo container mejorado */
+        .header-icon-one {
+            text-align: center;
+            padding: 2rem 0;
+            animation: fadeInUp 1s ease-out;
+        }
+        
+        .header-icon-one img {
+            max-width: 100%;
+            height: auto;
+            filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.1));
+            transition: var(--transition);
+        }
+        
+        .header-icon-one img:hover {
+            transform: scale(1.02);
+            filter: drop-shadow(0 15px 30px rgba(0, 0, 0, 0.15));
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* Footer mejorado */
+        .footer {
+            background: linear-gradient(135deg, var(--dark-bg) 0%, #34495e 100%);
+            color: #ffffff;
+            padding: 3rem 0 1rem;
+            margin-top: auto;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+        }
+        
+        .footer h5 {
+            color: #ffffff;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+        
+        .footer h5::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 2px;
+            background: var(--accent-color);
+            border-radius: 2px;
+        }
+        
+        /* Social icons mejorados */
+        .social-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 50px;
+            height: 50px;
+            font-size: 1.25rem;
+            margin: 0 0.75rem;
+            color: #ffffff;
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            text-decoration: none;
+            transition: var(--transition);
+            backdrop-filter: blur(10px);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .social-icon::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s ease;
+        }
+        
+        .social-icon:hover {
+            color: #ffffff;
+            background: var(--accent-color);
+            border-color: var(--accent-color);
+            transform: translateY(-3px) scale(1.1);
+            box-shadow: 0 10px 20px rgba(52, 152, 219, 0.3);
+        }
+        
+        .social-icon:hover::before {
+            left: 100%;
+        }
+        
+        .social-icon:focus {
+            outline: 2px solid var(--accent-color);
+            outline-offset: 2px;
+        }
+        
+        /* Copyright styling */
+        .text-muted {
+            color: rgba(255, 255, 255, 0.7) !important;
+            font-size: 0.9rem;
+        }
+        
+        /* Back to top button */
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: var(--transition);
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(20px);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .back-to-top.visible {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+        
+        .back-to-top:hover {
+            background: var(--primary-dark);
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px rgba(44, 90, 160, 0.4);
+        }
+        
+        /* Responsive improvements */
+        @media (max-width: 991.98px) {
+            .navbar-nav {
+                background: rgba(255, 255, 255, 0.95);
+                backdrop-filter: blur(20px);
+                border-radius: var(--border-radius);
+                padding: 1rem;
+                margin-top: 1rem;
+                box-shadow: var(--shadow);
+            }
+            
+            .nav-link {
+                margin: 0.25rem 0;
+            }
+            
+            .main-content {
+                padding-top: 70px;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .social-icon {
+                width: 45px;
+                height: 45px;
+                margin: 0 0.5rem;
+                font-size: 1.1rem;
+            }
+            
+            .back-to-top {
+                bottom: 20px;
+                right: 20px;
+                width: 45px;
+                height: 45px;
+            }
+        }
+        
+        /* Accessibility improvements */
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+        
+        /* Focus styles for keyboard navigation */
+        .nav-link:focus,
+        .navbar-brand:focus {
+            outline: 2px solid var(--primary-color);
+            outline-offset: 2px;
+        }
+    </style>
+    
+    <!-- Block para CSS específico de páginas -->
+    {% block links %}{% endblock %}
+    
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "name": "EATA - Estación de Alerta Temprana Atmosférica",
+        "description": "Sistema de alerta temprana atmosférica de la UNI para la prevención de desastres naturales en el Perú",
+        "url": "{{ request.base_url }}",
+        "logo": "{{ url_for('static', filename='img/logo.png', _external=True) | e }}",
+        "sameAs": [
+            "https://www.facebook.com/profile.php?id=100093403818040",
+            "https://www.youtube.com/@EATA-UNI",
+            "https://www.instagram.com/eata_uni/",
+            "https://www.linkedin.com/in/proyecto-estación-de-alerta-temprana-atmosférica-b4045227b/"
+        ],
+        "contactPoint": {
+            "@type": "ContactPoint",
+            "contactType": "customer support",
+            "availableLanguage": ["Spanish", "English"]
+        }
+    }
+    </script>
+</head>
+
+<body class="d-flex flex-column ">
+    <!-- Skip to main content link -->
+    <a href="#main-content" class="skip-link" tabindex="1">Saltar al contenido principal</a>
+    
+    <!-- Page Loader -->
+    <div class="page-loader" id="pageLoader">
+        <div class="spinner" role="status" aria-label="Cargando página">
+            <span class="visually-hidden">Cargando...</span>
+        </div>
+    </div>
+    
+    <!-- Header -->
+    <header role="banner">
+        <!-- Navigation -->
+        <nav class="navbar navbar-expand-lg navbar-light fixed-top" role="navigation" aria-label="Navegación principal" id="mainNavbar">
+            <div class="container">
+                <!-- Brand -->
+                <a href="{{ url_for('base') | e }}" class="navbar-brand" aria-label="EATA - Inicio">
+                    <i class="fas fa-cloud-sun me-2" aria-hidden="true"></i>
+                    EATA
+                </a>
+                
+                <!-- Mobile Toggle Button -->
+                <button 
+                    class="navbar-toggler" 
+                    type="button" 
+                    data-bs-toggle="collapse" 
+                    data-bs-target="#navbarContent" 
+                    aria-controls="navbarContent" 
+                    aria-expanded="false" 
+                    aria-label="Alternar navegación">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                
+                <!-- Navigation Menu -->
+                <div class="collapse navbar-collapse" id="navbarContent">
+                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0" role="menubar">
+                        <li class="nav-item" role="none">
+                            <a href="{{ url_for('base') | e }}" 
+                               class="nav-link{% if request.endpoint == 'base' %} active{% endif %}" 
+                               role="menuitem"
+                               {% if request.endpoint == 'base' %}aria-current="page"{% endif %}>
+                                <i class="fas fa-home me-1" aria-hidden="true"></i>
+                                Inicio
+                            </a>
+                        </li>
+                        <li class="nav-item" role="none">
+                            <a href="{{ url_for('geovisor') | e }}" 
+                               class="nav-link{% if request.endpoint == 'geovisor' %} active{% endif %}" 
+                               role="menuitem"
+                               {% if request.endpoint == 'geovisor' %}aria-current="page"{% endif %}>
+                                <i class="fas fa-globe-americas me-1" aria-hidden="true"></i>
+                                Geovisor
+                            </a>
+                        </li>
+                        <li class="nav-item" role="none">
+                            <a href="{{ url_for('geouni') | e }}"
+                                class="nav-link{% if request.endpoint == 'geouni' %} active{% endif %}"
+                                role="menuitem"
+                                {% if request.endpoint == 'geouni' %}aria-current="page"{% endif %}>
+                                <i class="fas fa-map-marked-alt me-1" aria-hidden="true"></i>
+                                GeoUni
+                            </a>
+                        </li>
+                        <li class="nav-item" role="none">
+                            <a href="{{ url_for('about') | e }}" 
+                               class="nav-link{% if request.endpoint == 'about' %} active{% endif %}" 
+                               role="menuitem"
+                               {% if request.endpoint == 'about' %}aria-current="page"{% endif %}>
+                                <i class="fas fa-users me-1" aria-hidden="true"></i>
+                                Nosotros
+                            </a>
+                        </li>
+                        <li class="nav-item" role="none">
+                            <a href="{{ url_for('contact') | e }}" 
+                               class="nav-link{% if request.endpoint == 'contact' %} active{% endif %}" 
+                               role="menuitem"
+                               {% if request.endpoint == 'contact' %}aria-current="page"{% endif %}>
+                                <i class="fas fa-envelope me-1" aria-hidden="true"></i>
+                                Contáctanos
+                            </a>
+                        </li>
+                        
+
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main id="main-content" role="main" class="flex-grow-1 main-content">
+        <div class="container">
+            {% block contenido %}
+            <!-- Contenido por defecto de la página de inicio -->
+            <div class="row mt-1">
+                <div class="col-md-12">
+                    <div class="header-icon-one">
+                        <picture>
+                            <source 
+                                media="(max-width: 768px)" 
+                                srcset="{{ url_for('static', filename='img/logo-mobile.png') | e }}">
+                            <img 
+                                src="{{ url_for('static', filename='img/logo.png') | e }}" 
+                                class="img-fluid" 
+                                alt="Logo completo de EATA - Estación de Alerta Temprana Atmosférica"
+                                loading="eager"
+                                decoding="async">
+                        </picture>
+                    </div>
+                </div>
+            </div>
+            {% endblock %}
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer mt-auto" role="contentinfo">
+        <div class="container text-center">
+            <h5 class="mb-4">Síguenos en nuestras redes sociales</h5>
+            <div class="mb-4">
+                <a href="https://www.facebook.com/profile.php?id=100093403818040" 
+                   class="social-icon" 
+                   target="_blank" 
+                   rel="noopener noreferrer"
+                   aria-label="Seguir en Facebook">
+                    <i class="fab fa-facebook-f" aria-hidden="true"></i>
+                </a>
+                <a href="https://www.youtube.com/@EATA-UNI" 
+                   class="social-icon" 
+                   target="_blank" 
+                   rel="noopener noreferrer"
+                   aria-label="Suscribirse en YouTube">
+                    <i class="fab fa-youtube" aria-hidden="true"></i>
+                </a>
+                <a href="https://www.instagram.com/eata_uni/" 
+                   class="social-icon" 
+                   target="_blank" 
+                   rel="noopener noreferrer"
+                   aria-label="Seguir en Instagram">
+                    <i class="fab fa-instagram" aria-hidden="true"></i>
+                </a>
+                <a href="https://www.linkedin.com/in/proyecto-estaci%C3%B3n-de-alerta-temprana-atmosf%C3%A9rica-b4045227b/" 
+                   class="social-icon" 
+                   target="_blank" 
+                   rel="noopener noreferrer"
+                   aria-label="Conectar en LinkedIn">
+                    <i class="fab fa-linkedin-in" aria-hidden="true"></i>
+                </a>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <div class="footer-info">
+                        <div class="row text-start text-md-center">
+                            <div class="col-md-4 mb-3">
+                                <h6 class="text-white fw-semibold">Proyecto EATA</h6>
+                                <p class="text-muted small">
+                                    Sistema de alerta temprana atmosférica para la prevención 
+                                    de desastres naturales en el Perú.
+                                </p>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <h6 class="text-white fw-semibold">Universidad Nacional de Ingeniería</h6>
+                                <p class="text-muted small">
+                                    Oficina de Tecnologías de la Información (OTI)
+                                </p>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <h6 class="text-white fw-semibold">Contacto</h6>
+                                <p class="text-muted small">
+                                    <a href="{{ url_for('contact') | e }}" class="text-decoration-none" style="color: rgba(255, 255, 255, 0.8);">
+                                        Información de contacto
+                                    </a>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <hr style="border-color: rgba(255, 255, 255, 0.2); margin: 2rem 0 1rem;">
+            <span class="text-muted">
+                © {{ current_year }} Estación de Alerta Temprana Atmosférica. Todos los derechos reservados.
+                |
+                <a href="#" class="text-decoration-none" style="color: rgba(255, 255, 255, 0.7);">Política de Privacidad</a>
+                |
+                <a href="#" class="text-decoration-none" style="color: rgba(255, 255, 255, 0.7);">Términos de Uso</a>
+            </span>
+        </div>
+    </footer>
+
+    <!-- Back to Top Button -->
+    <button id="backToTop" class="back-to-top" aria-label="Volver arriba" title="Volver arriba">
+        <i class="fas fa-arrow-up" aria-hidden="true"></i>
+    </button>
+
+    <!-- Scripts -->
+    <!-- jQuery -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" 
+            integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" 
+            crossorigin="anonymous" 
+            referrerpolicy="no-referrer"></script>
+    
+    <!-- Bootstrap Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" 
+            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" 
+            crossorigin="anonymous"></script>
+    
+    <!-- ScrollReveal -->
+    <script src="https://unpkg.com/scrollreveal@4.0.9/dist/scrollreveal.min.js"></script>
+    
+    <!-- Page-specific scripts -->
+    {% block page_scripts %}{% endblock %}
+    
+    <!-- Main JavaScript -->
+    <script>
+        // Initialize application
+        document.addEventListener('DOMContentLoaded', function() {
+            // Hide page loader
+            const pageLoader = document.getElementById('pageLoader');
+            if (pageLoader) {
+                setTimeout(() => {
+                    pageLoader.classList.add('hidden');
+                }, 100);
+            }
+            
+            // Initialize ScrollReveal
+            if (typeof ScrollReveal !== 'undefined') {
+                ScrollReveal().reveal('.reveal', {
+                    duration: 1000,
+                    distance: '30px',
+                    easing: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)',
+                    origin: 'bottom',
+                    reset: false
+                });
+            }
+            
+            // Navbar scroll effect
+            const navbar = document.getElementById('mainNavbar');
+            let lastScroll = 0;
+            
+            window.addEventListener('scroll', function() {
+                const currentScroll = window.pageYOffset;
+                
+                // Add scrolled class for styling
+                if (currentScroll > 50) {
+                    navbar.classList.add('scrolled');
+                } else {
+                    navbar.classList.remove('scrolled');
+                }
+                
+                lastScroll = currentScroll;
+            });
+            
+            // Back to top button
+            const backToTop = document.getElementById('backToTop');
+            if (backToTop) {
+                window.addEventListener('scroll', function() {
+                    if (window.pageYOffset > 300) {
+                        backToTop.classList.add('visible');
+                    } else {
+                        backToTop.classList.remove('visible');
+                    }
+                });
+                
+                backToTop.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    window.scrollTo({
+                        top: 0,
+                        behavior: 'smooth'
+                    });
+                });
+            }
+            
+            // Smooth scrolling for anchor links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        const offsetTop = target.offsetTop - 80;
+                        window.scrollTo({
+                            top: offsetTop,
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+            
+            // Active navigation link
+            const currentLocation = location.pathname;
+            const menuItems = document.querySelectorAll('.navbar-nav .nav-link');
+            menuItems.forEach(item => {
+                if (item.getAttribute('href') === currentLocation) {
+                    item.classList.add('active');
+                    item.setAttribute('aria-current', 'page');
+                }
+            });
+            
+            // Keyboard navigation improvements
+            document.addEventListener('keydown', function(e) {
+                // ESC key closes mobile menu
+                if (e.key === 'Escape') {
+                    const navbarCollapse = document.querySelector('.navbar-collapse');
+                    if (navbarCollapse && navbarCollapse.classList.contains('show')) {
+                        const bsCollapse = new bootstrap.Collapse(navbarCollapse);
+                        bsCollapse.hide();
+                    }
+                }
+            });
+            
+            // Close mobile menu when clicking on a link
+            document.querySelectorAll('.navbar-nav .nav-link').forEach(link => {
+                link.addEventListener('click', function() {
+                    const navbarCollapse = document.querySelector('.navbar-collapse');
+                    if (navbarCollapse && navbarCollapse.classList.contains('show')) {
+                        const bsCollapse = new bootstrap.Collapse(navbarCollapse);
+                        bsCollapse.hide();
+                    }
+                });
+            });
+            
+            // Lazy loading for images
+            if ('IntersectionObserver' in window) {
+                const imageObserver = new IntersectionObserver((entries, observer) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            const img = entry.target;
+                            img.src = img.dataset.src;
+                            img.classList.remove('lazy');
+                            imageObserver.unobserve(img);
+                        }
+                    });
+                });
+                
+                document.querySelectorAll('img[data-src]').forEach(img => {
+                    imageObserver.observe(img);
+                });
+            }
+            
+            // Performance monitoring
+            if ('performance' in window) {
+                window.addEventListener('load', function() {
+                    setTimeout(function() {
+                        const perfData = performance.getEntriesByType('navigation')[0];
+                        console.group('🚀 Performance Metrics');
+                        console.log('📊 Page Load Time:', Math.round(perfData.loadEventEnd - perfData.fetchStart) + 'ms');
+                        console.log('🎯 DOM Content Loaded:', Math.round(perfData.domContentLoadedEventEnd - perfData.fetchStart) + 'ms');
+                        console.log('🎨 First Paint:', Math.round(performance.getEntriesByType('paint')[0]?.startTime) + 'ms');
+                        console.groupEnd();
+                    }, 0);
+                });
+            }
+        });
+        
+        // Service Worker Registration
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', function() {
+                navigator.serviceWorker.register('/sw.js')
+                    .then(function(registration) {
+                        console.log('✅ ServiceWorker registration successful');
+                    })
+                    .catch(function(err) {
+                        console.log('❌ ServiceWorker registration failed');
+                    });
+            });
+        }
+        
+        // Enhanced error handling
+        window.addEventListener('error', function(e) {
+            console.error('💥 JavaScript Error:', e.error);
+            // Aquí puedes enviar errores a un servicio de monitoreo como Sentry
+        });
+        
+        window.addEventListener('unhandledrejection', function(e) {
+            console.error('💥 Unhandled Promise Rejection:', e.reason);
+        });
+        
+        // Connection status handling
+        window.addEventListener('online', function() {
+            console.log('🌐 Connection restored');
+            // Mostrar notificación de conexión restaurada
+            showNotification('Conexión restaurada', 'success');
+        });
+        
+        window.addEventListener('offline', function() {
+            console.log('📵 Connection lost');
+            // Mostrar notificación de conexión perdida
+            showNotification('Conexión perdida', 'warning');
+        });
+        
+        // Utility function for notifications
+        function showNotification(message, type = 'info') {
+            // Crear elemento de notificación
+            const notification = document.createElement('div');
+            notification.className = `alert alert-${type} alert-dismissible fade show position-fixed`;
+            notification.style.cssText = `
+                top: 20px;
+                right: 20px;
+                z-index: 10000;
+                min-width: 300px;
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            `;
+            notification.innerHTML = `
+                ${message}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            `;
+            
+            document.body.appendChild(notification);
+            
+            // Auto-remove after 5 seconds
+            setTimeout(() => {
+                if (notification.parentNode) {
+                    notification.classList.remove('show');
+                    setTimeout(() => {
+                        if (notification.parentNode) {
+                            notification.parentNode.removeChild(notification);
+                        }
+                    }, 150);
+                }
+            }, 5000);
+        }
+        
+        // Enhanced social media tracking
+        document.querySelectorAll('.social-icon').forEach(icon => {
+            icon.addEventListener('click', function(e) {
+                const platform = this.href.includes('facebook') ? 'Facebook' :
+                               this.href.includes('youtube') ? 'YouTube' :
+                               this.href.includes('instagram') ? 'Instagram' :
+                               this.href.includes('linkedin') ? 'LinkedIn' : 'Unknown';
+                
+                console.log(`📱 Social Media Click: ${platform}`);
+                
+                // Aquí puedes agregar tracking de analytics
+                if (typeof gtag !== 'undefined') {
+                    gtag('event', 'social_click', {
+                        'social_platform': platform,
+                        'event_category': 'Social Media',
+                        'event_label': platform
+                    });
+                }
+            });
+        });
+        
+        // Preload critical resources
+        function preloadCriticalResources() {
+            const criticalImages = [
+                '{{ url_for("static", filename="img/logo.png") }}',
+                '{{ url_for("static", filename="img/logo-mobile.png") }}'
+            ];
+            
+            criticalImages.forEach(src => {
+                if (src && !src.includes('None')) {
+                    const link = document.createElement('link');
+                    link.rel = 'preload';
+                    link.as = 'image';
+                    link.href = src;
+                    document.head.appendChild(link);
+                }
+            });
+        }
+        
+        // Initialize preloading
+        preloadCriticalResources();
+        
+        // Theme preference detection
+        if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+            console.log('🌙 Dark mode preference detected');
+            // Aquí puedes aplicar estilos para modo oscuro si es necesario
+        }
+        
+        // Print styles handling
+        window.addEventListener('beforeprint', function() {
+            console.log('🖨️ Preparing for print');
+            // Ocultar elementos no necesarios para impresión
+            document.querySelectorAll('.no-print, .back-to-top, .page-loader').forEach(el => {
+                el.style.display = 'none';
+            });
+        });
+        
+        window.addEventListener('afterprint', function() {
+            console.log('✅ Print completed');
+            // Restaurar elementos ocultos
+            document.querySelectorAll('.no-print, .back-to-top').forEach(el => {
+                el.style.display = '';
+            });
+        });
+    </script>
+    
+    <!-- Google Analytics (si se requiere) -->
+    {% block analytics %}{% endblock %}
+    
+    <!-- Page-specific inline scripts -->
+    {% block inline_scripts %}{% endblock %}
+</body>
+</html>

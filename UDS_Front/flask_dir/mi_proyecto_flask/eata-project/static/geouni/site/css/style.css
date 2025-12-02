@@ -1,0 +1,663 @@
+html, body, #mapDiv {
+  padding: 0;
+  margin: 0;
+  height: 100%;
+  width: 100%;
+}
+
+#sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 30%;  /* Cambiado a 35% como solicitado */
+  background-color: white;
+  box-shadow: 2px 0 10px rgba(0,0,0,0.2);
+  transform: translateX(-100%);
+  transition: transform 0.3s ease;
+  z-index: 1000;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+#sidebar.open {
+  transform: translateX(0);
+}
+
+/* Mobile styles for sidebar - show from bottom */
+@media (max-width: 768px) {
+  #sidebar {
+    top: auto;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 70%;  /* Takes 70% of screen height on mobile */
+    transform: translateY(100%);  /* Start hidden below the screen */
+  }
+  
+  #sidebar.open {
+    transform: translateY(0);  /* Slide up from bottom */
+  }
+  
+  .location-image {
+    height: 150px !important;  /* Smaller image on mobile */
+  }
+}
+
+#sidebar-header {
+  padding: 16px;
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 2;
+}
+
+#closeButton {
+  background: white;
+  border: 1px solid black;
+  cursor: pointer;
+  font-size: 24px;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: black;
+  border-radius: 50%;
+}
+
+.location-image {
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+}
+
+.location-details {
+  padding: 16px;
+}
+
+.location-name {
+  font-size: 24px;
+  margin: 0 0 5px 0;
+}
+
+.location-header {
+  padding: 16px;
+  border-bottom: 1px solid #e0e0e0;
+  background-color: white;
+}
+
+.location-header h2 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 600;
+  color: #333;
+}
+
+.location-district {
+  color: #666;
+  margin: 0 0 16px 0;
+}
+
+.location-description {
+  margin: 16px 0;
+}
+
+.detail-item {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.detail-label {
+  font-weight: 500;
+}
+
+.details-section {
+  margin: 16px 0;
+}
+
+.details-title {
+  font-size: 18px;
+  margin-bottom: 8px;
+}
+
+.drop-marker {
+  width: 30px;
+  height: 40px;
+  border-radius: 50% 50% 0 50%;
+  transform: rotate(-45deg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Estilos para el acordeón */
+.accordion-container {
+  width: 100%;
+  margin-top: 16px;
+}
+
+.accordion-item {
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.accordion-header {
+  display: flex;
+  align-items: center;
+  padding: 12px 0;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.accordion-header:hover {
+  background-color: #f9f9f9;
+}
+
+.accordion-icon {
+  margin-right: 8px;
+  color: #666;
+}
+
+.accordion-header span {
+  flex-grow: 1;
+  font-weight: 500;
+}
+
+.chevron {
+  transition: transform 0.3s ease;
+}
+
+.chevron.rotated {
+  transform: rotate(180deg);
+}
+
+.accordion-content {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease;
+  padding: 0 10px;
+}
+
+.accordion-content p {
+  margin: 8px 0;
+}
+
+.accordion-header.active {
+  background-color: #f5f5f5;
+}
+
+/* Estilos para la barra de búsqueda - Google Maps style */
+#searchContainer {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  z-index: 100;
+  width: 30%;
+  min-width: 200px;
+  max-width: 400px;
+}
+
+.search-input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.search-clear-btn {
+  position: absolute;
+  right: 12px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 60%;
+  display: none;
+  color: #666;
+  transition: background-color 0.2s ease;
+}
+
+.search-clear-btn:hover {
+  background-color: #f1f3f4;
+}
+
+.search-clear-btn.show {
+  display: block;
+}
+
+@media (max-width: 768px) {
+  #searchContainer {
+    top: 15px;
+    left: 50%;
+    right: auto;
+    transform: translateX(-50%);
+    width: 50%;  /* Cambiado a 60% como solicitado */
+    max-width: 400px;
+  }
+}
+
+.search-input {
+  width: 100%;
+  padding: 12px 40px 12px 16px;
+  border: none;
+  border-radius: 24px;
+  font-size: 16px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  background-color: white;
+  outline: none;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  transition: box-shadow 0.2s ease;
+}
+
+.search-input:focus {
+  box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+}
+
+.search-input::placeholder {
+  color: #9aa0a6;
+  font-size: 16px;
+}
+
+.search-results {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background-color: white;
+  border-radius: 8px;
+  margin-top: 4px;
+  max-height: 300px;
+  overflow-y: auto;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  display: none;
+}
+
+.search-results.active {
+  display: block;
+}
+
+.search-item {
+  padding: 12px 16px;
+  cursor: pointer;
+  border-bottom: 1px solid #f1f3f4;
+  font-size: 14px;
+  color: #3c4043;
+  transition: background-color 0.2s ease;
+}
+
+.search-item:hover {
+  background-color: #f8f9fa;
+}
+
+.search-item:last-child {
+  border-bottom: none;
+}
+
+/* Estilo para el marcador de ubicación del usuario */
+.user-location-marker {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background-color: #ea384c;
+  border: 2px solid white;
+  box-shadow: 0 0 5px rgba(0,0,0,0.5);
+}
+
+/* Estilos para las pestañas tipo Google Chrome */
+.tabs-container {
+  border-bottom: 1px solid #e0e0e0;
+  margin-bottom: 16px;
+  background-color: #f8f9fa;
+  padding: 0;
+}
+
+.tabs-list {
+  display: flex;
+  overflow-x: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  background-color: #f8f9fa;
+  margin: 0;
+  padding: 0;
+  border-bottom: 1px solid #dee2e6;
+}
+
+.tabs-list::-webkit-scrollbar {
+  display: none;
+}
+
+.tab-button {
+  background: #f8f9fa;
+  border: 1px solid #dee2e6;
+  border-bottom: none;
+  padding: 12px 16px;
+  cursor: pointer;
+  white-space: nowrap;
+  font-size: 14px;
+  color: #666;
+  transition: all 0.2s ease;
+  min-width: max-content;
+  margin-right: 2px;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+  position: relative;
+  top: 1px;
+}
+
+.tab-button:hover {
+  background-color: #e9ecef;
+  color: #333;
+}
+
+.tab-button.active {
+  background-color: white;
+  color: #1a73e8;
+  border-bottom: 1px solid white;
+  font-weight: 500;
+  z-index: 1;
+}
+
+.tab-content {
+  display: none;
+  background-color: white;
+  padding: 16px;
+  margin: 0;
+  min-height: 200px;
+}
+
+.tab-content.active {
+  display: block !important;
+}
+
+.how-to-get-title {
+  font-size: 16px;
+  font-weight: 500;
+  margin: 16px 0 8px 0;
+  color: #333;
+}
+
+/* Estilo para el botón de rutas */
+.directions-button {
+  background-color: #1a73e8;
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  margin-top: 8px;
+  width: 100%;
+  transition: background-color 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.directions-button:hover {
+  background-color: #1557b0;
+}
+
+.directions-button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.route-info {
+  background-color: #f8f9fa;
+  padding: 12px;
+  border-radius: 8px;
+  margin-top: 12px;
+  font-size: 14px;
+}
+
+.route-duration {
+  font-weight: 500;
+  color: #1a73e8;
+  margin-bottom: 4px;
+}
+
+.route-distance {
+  color: #5f6368;
+}
+
+/* Estilos para la isla flotante de navegación */
+.route-floating-island {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+  z-index: 1001;
+  padding: 16px 20px;
+  min-width: 280px;
+  animation: slideDown 0.3s ease-out;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+}
+
+.route-info-content {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.route-stats {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex: 1;
+}
+
+.route-time,
+.route-distance {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #333;
+}
+
+.route-time svg,
+.route-distance svg {
+  color: #1a73e8;
+}
+
+.stop-route-btn {
+  background-color: #ea4335;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: background-color 0.2s ease;
+}
+
+.stop-route-btn:hover {
+  background-color: #d33b2c;
+}
+
+/* Estilos responsive para la isla flotante */
+/* Estilos para asociaciones estudiantiles */
+.associations-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.association-item {
+  padding: 8px 0;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.association-item:last-child {
+  border-bottom: none;
+}
+
+.association-name {
+  font-weight: 500;
+  color: #333;
+  margin-bottom: 4px;
+}
+
+.association-email {
+  color: #1a73e8;
+  text-decoration: none;
+  font-size: 14px;
+}
+
+.association-email:hover {
+  text-decoration: underline;
+}
+
+/* Estilos para enlaces sociales */
+.social-link {
+  color: #1a73e8;
+  text-decoration: none;
+}
+
+.social-link:hover {
+  text-decoration: underline;
+}
+
+/* Responsive styles for tablets and mobile */
+@media (max-width: 768px) {
+  .route-floating-island {
+    top: 80px; /* Posicionada debajo de la barra de búsqueda */
+    left: 50%;
+    right: auto;
+    transform: translateX(-50%);
+    width: 60%;
+    min-width: auto;
+  }
+  
+  .route-info-content {
+    flex-direction: column;
+    gap: 12px;
+  }
+  
+  .route-stats {
+    justify-content: center;
+  }
+  
+  .stop-route-btn {
+    width: 100%;
+    justify-content: center;
+  }
+}
+.btn-user-loc {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 10px;
+  cursor: pointer;
+  font-size: 18px;
+  line-height: 1;
+  transition: background-color .2s ease-in-out;
+}
+.btn-user-loc:hover { background-color: #0056b3; }
+.btn-user-loc.active { background-color: #17a2b8; }
+/* Estilos para el mensaje flotante */
+.floating-message {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%) translateY(-100px);
+  background: #fff;
+  border-radius: 12px;
+  padding: 0;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  border: 1px solid #e0e0e0;
+  z-index: 10000;
+  opacity: 0;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  max-width: 400px;
+  width: 90%;
+}
+
+.floating-message.show {
+  transform: translateX(-50%) translateY(0);
+  opacity: 1;
+}
+
+.floating-message-error {
+  border-left: 4px solid #f44336;
+}
+
+.floating-message-warning {
+  border-left: 4px solid #ff9800;
+}
+
+.floating-message-success {
+  border-left: 4px solid #4caf50;
+}
+
+.floating-message-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+}
+
+.floating-message-text {
+  color: #333;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.4;
+  margin-right: 12px;
+}
+
+.floating-message-close {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 4px;
+  color: #666;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+
+.floating-message-close:hover {
+  background: #f5f5f5;
+  color: #333;
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+  .floating-message {
+    width: 95%;
+    max-width: none;
+  }
+  
+  .floating-message-content {
+    padding: 14px 16px;
+  }
+  
+  .floating-message-text {
+    font-size: 13px;
+  }
+}

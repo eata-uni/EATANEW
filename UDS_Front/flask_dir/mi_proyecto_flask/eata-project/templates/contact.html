@@ -1,0 +1,107 @@
+{# templates/contact.html #}
+{% extends "base.html" %}
+{% block title %}Contáctanos - EATA{% endblock %}
+
+{% block links %}
+  {{ super() }}  {# deja Bootstrap y FontAwesome que ya vienen en base.html #}
+
+  <style>
+    /* ============ Contact Page ============ */
+    .contact-section{padding:6rem 0}
+    .section-badge{
+        display:inline-block;background:var(--primary-color);color:#fff;
+        padding:.4rem 1rem;border-radius:9999px;font-weight:500;font-size:.9rem
+    }
+    .section-title{font-size:clamp(2rem,4vw,2.5rem);font-weight:700;margin:.8rem 0}
+    .section-description{color:var(--text-muted);font-size:1.05rem}
+
+    .contact-card{
+        background:#fff;border:1px solid var(--border-color);border-radius:var(--border-radius);
+        box-shadow:var(--shadow);transition:var(--transition);text-align:center;height:100%
+    }
+    .contact-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-lg)}
+    .icon-wrapper{
+        width:60px;height:60px;margin:0 auto 1rem;background:var(--primary-color);
+        color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;
+        font-size:1.5rem
+    }
+
+    /* iframe responsivo */
+    .map-responsive{position:relative;padding-bottom:56.25%;height:0;overflow:hidden;
+                    border-radius:var(--border-radius);box-shadow:var(--shadow-lg)}
+    .map-responsive iframe{
+        position:absolute;top:0;left:0;width:100%;height:100%;border:0
+    }
+
+    /* corrige body h-100 heredado cuando la página sea más larga que el viewport */
+    html,body{height:auto!important;min-height:100%}
+  </style>
+{% endblock %}
+
+{% block contenido %}
+<section class="contact-section">
+  <div class="container">
+
+    <!-- encabezado -->
+    <div class="row justify-content-center mb-5">
+      <div class="col-lg-8 text-center">
+        <span class="section-badge">Contáctanos</span>
+        <h1 class="section-title">Estamos <span class="text-gradient">para ayudarte</span></h1>
+        <p class="section-description">
+          Escríbenos o visítanos en el campus UNI.<br>
+          Respondemos en menos de 24&nbsp;h en días hábiles.
+        </p>
+      </div>
+    </div>
+
+    <!-- tarjetas de datos -->
+    <div class="row g-4">
+      <div class="col-md-4">
+        <div class="contact-card p-4">
+          <div class="icon-wrapper"><i class="fas fa-map-marker-alt"></i></div>
+          <h5 class="fw-semibold">Dirección</h5>
+          <p class="mb-0">
+            UNI – Pabellón R4<br>
+            Av. Túpac Amaru 280<br>
+            Rímac&nbsp;15333, Lima – Perú
+          </p>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="contact-card p-4">
+          <div class="icon-wrapper"><i class="fas fa-envelope"></i></div>
+          <h5 class="fw-semibold">Correo</h5>
+          <p class="mb-0">
+            <a href="mailto:eata.pe@uni.edu.pe" class="text-decoration-none">
+              eata.pe@uni.edu.pe
+            </a>
+          </p>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="contact-card p-4">
+          <div class="icon-wrapper"><i class="fas fa-phone"></i></div>
+          <h5 class="fw-semibold">Teléfono</h5>
+          <p class="mb-0">+51&nbsp;1&nbsp;481‑1070&nbsp; (anexo&nbsp;XXXX)</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- mapa -->
+    <div class="row mt-5">
+      <div class="col-12">
+        <div class="map-responsive">
+          <iframe
+            loading="lazy"
+            allowfullscreen
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1245.834383739508!2d-77.0512674!3d-12.0166872!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x9105cf18d643a701%3A0x428e90276ca96a02!2sCentro%20de%20Tecnolog%C3%ADas%20de%20Informaci%C3%B3n%20y%20Comunicaciones!5e0!3m2!1ses!2spe!4v1634642335543!5m2!1ses!2spe">
+          </iframe>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+{% endblock %}
