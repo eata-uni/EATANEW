@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-SNAP_BASE="/home/ubuntu/env_snapshots"
-SNAP_DIR="${1:-${SNAP_BASE}/latest}"
+SNAP_BASE="/home/uds"
+SNAP_DIR="${1:-${SNAP_BASE}/latest_page}"
 
 if [[ ! -d "${SNAP_DIR}" ]]; then
   echo "❌ No existe snapshot: ${SNAP_DIR}" >&2
@@ -38,33 +38,6 @@ for PY_DIR in "${SNAP_DIR}"/python_env_*; do
   fi
 done
 
-# ====== Restaurar proyecto Node ======
-NODE_SNAP="${SNAP_DIR}/node_project"
-if [[ -d "${NODE_SNAP}" ]]; then
-  # Usa el mismo dir del proyecto original (puedes cambiarlo)
-  TARGET_NODE_DIR="/home/ubuntu/DB_CON"
-  mkdir -p "${TARGET_NODE_DIR}"
 
-  log "🟢 Restaurando Node en ${TARGET_NODE_DIR}"
-  # Copia manifestos
-  [[ -f "${NODE_SNAP}/package.json" ]] && cp -f "${NODE_SNAP}/package.json" "${TARGET_NODE_DIR}/package.json"
-  [[ -f "${NODE_SNAP}/package-lock.json" ]] && cp -f "${NODE_SNAP}/package-lock.json" "${TARGET_NODE_DIR}/package-lock.json"
-  [[ -f "${NODE_SNAP}/.nvmrc" ]] && cp -f "${NODE_SNAP}/.nvmrc" "${TARGET_NODE_DIR}/.nvmrc"
-
-  pushd "${TARGET_NODE_DIR}" >/dev/null
-  # Si usas nvm: intenta setear versión
-  if command -v nvm >/dev/null 2>&1 && [[ -f ".nvmrc" ]]; then
-    nvm install "$(cat .nvmrc)" || true
-    nvm use "$(cat .nvmrc)" || true
-  fi
-
-  # Instala dependencias tal cual lockfile (reproducible)
-  if [[ -f package-lock.json ]]; then
-    npm ci
-  else
-    npm install
-  fi
-  popd >/dev/null
-fi
 
 log "✅ Restauración finalizada desde snapshot: ${SNAP_DIR}"

@@ -521,7 +521,7 @@
                         const localDate = new Date(f);
 
                         // 2. Obtenemos el desfase en minutos (para UTC-5, esto devuelve 300).
-                        const timezoneOffset = localDate.getTimezoneOffset();
+                        const timezoneOffset = 0;
                         
                         // 3. Sumamos ese desfase a la fecha para "cancelar" la conversión inicial.
                         localDate.setMinutes(localDate.getMinutes() + timezoneOffset);
@@ -592,7 +592,7 @@
                             const localDate2 = new Date(feature.properties.fecha_muestra);
 
                             // 2. Obtenemos el desfase en minutos (para UTC-5, esto devuelve 300).
-                            const timezoneOffset2 = localDate2.getTimezoneOffset();
+                            const timezoneOffset2 = 0;
                             
                             // 3. Sumamos ese desfase a la fecha para "cancelar" la conversión inicial.
                             localDate2.setMinutes(localDate2.getMinutes() + timezoneOffset2);

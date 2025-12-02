@@ -116,73 +116,186 @@ class RouteService {
         return;
       }
 
-      const options = {
-        enableHighAccuracy: true,
-        timeout: 15000,
-        maximumAge: 30000
+      this.locationAttempts = 0;
+      this.bestLocation = null;
+
+      const attemptLocation = () => {
+        this.locationAttempts++;
+        
+        const options = {
+          enableHighAccuracy: true,
+          timeout: 25000, // 25 segundos
+          maximumAge: 0, // CERO - No usar caché, siempre obtener ubicación fresca
+        };
+
+        navigator.geolocation.getCurrentPosition(
+          (position) => {
+            const coords = {
+              latitude: position.coords.latitude,
+              longitude: position.coords.longitude,
+              accuracy: position.coords.accuracy,
+              altitude: position.coords.altitude,
+              altitudeAccuracy: position.coords.altitudeAccuracy,
+              heading: position.coords.heading,
+              speed: position.coords.speed,
+              timestamp: position.timestamp
+            };
+            
+            console.log(`📍 Intento ${this.locationAttempts} - Precisión: ${coords.accuracy}m`, coords);
+
+            // Estrategia: Guardar la mejor ubicación (menor accuracy)
+            if (!this.bestLocation || coords.accuracy < this.bestLocation.accuracy) {
+              this.bestLocation = coords;
+            }
+
+            // Si tenemos buena precisión (< 20m) o es el último intento, resolver
+            if (coords.accuracy <= 20 || this.locationAttempts >= this.maxLocationAttempts) {
+              const finalCoords = this.bestLocation;
+              
+              if (finalCoords.accuracy > 50) {
+                console.warn('Precisión de ubicación moderada:', finalCoords.accuracy, 'metros');
+                this.showFloatingMessage(`Precisión moderada (${Math.round(finalCoords.accuracy)}m). Mueve tu dispositivo para mejorarla.`, 'warning');
+              }
+              
+              if (this.isLocationValid(finalCoords)) {
+                resolve(finalCoords);
+              } else {
+                reject(new Error('Ubicación fuera del rango esperado'));
+              }
+            } else {
+              // Intentar nuevamente con delay
+              console.log(`🔄 Reintentando ubicación... (${this.locationAttempts}/${this.maxLocationAttempts})`);
+              setTimeout(attemptLocation, 2000);
+            }
+          },
+          (error) => {
+            console.error(`Error en intento ${this.locationAttempts}:`, error);
+            
+            if (this.locationAttempts >= this.maxLocationAttempts) {
+              if (this.bestLocation) {
+                console.warn('Usando mejor ubicación disponible despite error');
+                if (this.isLocationValid(this.bestLocation)) {
+                  resolve(this.bestLocation);
+                } else {
+                  reject(new Error('Mejor ubicación fuera del rango esperado'));
+                }
+              } else {
+                reject(error);
+              }
+            } else {
+              setTimeout(attemptLocation, 2000);
+            }
+          },
+          options
+        );
       };
 
-      navigator.geolocation.getCurrentPosition(
+      // Iniciar primer intento
+      attemptLocation();
+    });
+  }
+async getPreciseLocation() {
+    return new Promise((resolve, reject) => {
+      if (!navigator.geolocation) {
+        reject(new Error('Geolocalización no soportada'));
+        return;
+      }
+
+      let bestAccuracy = Infinity;
+      let bestCoords = null;
+      let attempts = 0;
+      const maxAttempts = 5;
+      const maxTime = 15000; // 15 segundos máximo
+
+      const options = {
+        enableHighAccuracy: true,
+        timeout: maxTime,
+        maximumAge: 0
+      };
+
+      const watchId = navigator.geolocation.watchPosition(
         (position) => {
+          attempts++;
           const coords = {
             latitude: position.coords.latitude,
             longitude: position.coords.longitude,
             accuracy: position.coords.accuracy
           };
-          
-          console.log('Ubicación obtenida:', coords);
-          
-          if (coords.accuracy > 100) {
-            console.warn('Precisión de ubicación baja:', coords.accuracy, 'metros');
+
+          console.log(`🎯 Afinando ubicación - Intento ${attempts}, Precisión: ${coords.accuracy}m`);
+
+          // Actualizar mejor ubicación encontrada
+          if (coords.accuracy < bestAccuracy) {
+            bestAccuracy = coords.accuracy;
+            bestCoords = coords;
           }
-          
-          if (this.isLocationValid(coords)) {
-            resolve(coords);
-          } else {
-            reject(new Error('Ubicación fuera del rango esperado'));
+
+          // Condiciones para terminar:
+          // 1. Precisión excelente (< 10m)
+          // 2. Máximo de intentos alcanzado
+          // 3. Tiempo máximo alcanzado (manejado por timeout)
+          if (coords.accuracy <= 10 || attempts >= maxAttempts) {
+            navigator.geolocation.clearWatch(watchId);
+            
+            if (bestCoords && this.isLocationValid(bestCoords)) {
+              if (bestCoords.accuracy > 30) {
+                this.showFloatingMessage(`Ubicación obtenida (${Math.round(bestCoords.accuracy)}m de precisión)`, 'warning');
+              }
+              resolve(bestCoords);
+            } else {
+              reject(new Error('No se pudo obtener una ubicación precisa'));
+            }
           }
         },
         (error) => {
-          console.error('Error obteniendo ubicación:', error);
-          reject(error);
+          navigator.geolocation.clearWatch(watchId);
+          console.error('Error en geolocalización precisa:', error);
+          
+          if (bestCoords && this.isLocationValid(bestCoords)) {
+            console.warn('Usando mejor ubicación disponible despite error');
+            resolve(bestCoords);
+          } else {
+            reject(error);
+          }
         },
         options
       );
+
+      // Timeout de respaldo
+      setTimeout(() => {
+        navigator.geolocation.clearWatch(watchId);
+        if (bestCoords && this.isLocationValid(bestCoords)) {
+          resolve(bestCoords);
+        } else {
+          reject(new Error('Timeout en obtención de ubicación precisa'));
+        }
+      }, maxTime);
     });
   }
 
-  isLocationValid(coords) {
-    const peruBounds = { north: 0, south: -18.5, east: -68.5, west: -81.5 };
-    const isInPeru = coords.latitude <= peruBounds.north &&
-                    coords.latitude >= peruBounds.south &&
-                    coords.longitude >= peruBounds.west &&
-                    coords.longitude <= peruBounds.east;
-    if (!isInPeru) {
-      console.warn('Ubicación fuera de Perú:', coords);
-      return false;
-    }
-
-    // 🔴 Campus: si no está dentro, mostrar mensaje flotante
-    if (!this.isInsideCampus(coords.longitude, coords.latitude)) {
-      this.showFloatingMessage('No te encuentras dentro de la universidad', 'error');
-      return false;
-    }
-
-    if (this.lastValidLocation) {
-      const distance = this.calculateDistance(
-        this.lastValidLocation.latitude,
-        this.lastValidLocation.longitude,
-        coords.latitude,
-        coords.longitude
-      );
-      if (distance > this.locationValidationDistance) {
-        console.warn('Ubicación muy alejada de la anterior:', distance, 'm');
-        return false;
+  // Método principal mejorado que elige la estrategia
+  async getEnhancedLocation(usePreciseMethod = true) {
+    try {
+      if (usePreciseMethod) {
+        return await this.getPreciseLocation();
+      } else {
+        return await this.getCurrentLocation();
       }
+    } catch (error) {
+      console.error('Error en geolocalización mejorada:', error);
+      
+      // Fallback: intentar método simple
+      if (usePreciseMethod) {
+        console.log('🔄 Intentando método alternativo...');
+        try {
+          return await this.getCurrentLocation();
+        } catch (fallbackError) {
+          throw new Error(`No se pudo obtener ubicación: ${fallbackError.message}`);
+        }
+      }
+      throw error;
     }
-    return true;
   }
-
   calculateDistance(lat1, lon1, lat2, lon2) {
     const R = 6371e3;
     const φ1 = lat1 * Math.PI/180;
@@ -262,7 +375,6 @@ class RouteService {
     this.currentDestination = destination;
     this.isTracking = true;
     
-    // 🔴 VERIFICACIÓN: El destino debe estar dentro del campus
     if (!this.isInsideCampus(destination.longitude, destination.latitude)) {
       this.showFloatingMessage('El destino seleccionado no se encuentra dentro del campus universitario', 'error');
       this.stopLocationTracking();
@@ -274,8 +386,9 @@ class RouteService {
     if (navigator.geolocation) {
       const watchOptions = {
         enableHighAccuracy: true,
-        timeout: 10000,
-        maximumAge: 5000
+        timeout: 15000, // Reducido para tracking continuo
+        maximumAge: 2000, // Muy bajo para tracking en tiempo real
+        distanceFilter: 3 // Solo actualizar si se mueve más de 3 metros
       };
 
       this.watchId = navigator.geolocation.watchPosition(
@@ -285,6 +398,12 @@ class RouteService {
             latitude: position.coords.latitude,
             accuracy: position.coords.accuracy
           };
+
+          // Filtrar por precisión - ignorar ubicaciones con baja precisión
+          if (userCoords.accuracy > 50) {
+            console.warn(`📍 Precisión baja en tracking: ${userCoords.accuracy}m - Ignorando actualización`);
+            return;
+          }
 
           if (this.isLocationValid(userCoords)) {
             this.lastValidLocation = userCoords;
@@ -311,7 +430,39 @@ class RouteService {
       this.showFloatingMessage('Tu navegador no soporta geolocalización', 'error');
     }
   }
+isLocationValid(coords) {
+    const peruBounds = { north: 0, south: -18.5, east: -68.5, west: -81.5 };
+    const isInPeru = coords.latitude <= peruBounds.north &&
+                    coords.latitude >= peruBounds.south &&
+                    coords.longitude >= peruBounds.west &&
+                    coords.longitude <= peruBounds.east;
+    if (!isInPeru) {
+      console.warn('Ubicación fuera de Perú:', coords);
+      return false;
+    }
 
+    if (!this.isInsideCampus(coords.longitude, coords.latitude)) {
+      this.showFloatingMessage('No te encuentras dentro de la universidad', 'error');
+      return false;
+    }
+
+    // Validación mejorada de saltos de ubicación
+    if (this.lastValidLocation) {
+      const distance = this.calculateDistance(
+        this.lastValidLocation.latitude,
+        this.lastValidLocation.longitude,
+        coords.latitude,
+        coords.longitude
+      );
+      
+      // Si el salto es muy grande y la precisión es mala, sospechar
+      if (distance > this.locationValidationDistance && coords.accuracy > 30) {
+        console.warn(`📍 Salto de ubicación sospechoso: ${Math.round(distance)}m con precisión ${coords.accuracy}m`);
+        return false;
+      }
+    }
+    return true;
+  }
   stopLocationTracking() {
     if (this.watchId !== null) {
       navigator.geolocation.clearWatch(this.watchId);
@@ -458,6 +609,17 @@ class RouteService {
       return `${Math.round(meters)} m`;
     } else {
       return `${(meters / 1000).toFixed(1)} km`;
+    }
+  }
+  
+async getBestPossibleLocation() {
+    try {
+      const location = await this.getEnhancedLocation(true);
+      console.log(`✅ Ubicación final obtenida - Precisión: ${location.accuracy}m`);
+      return location;
+    } catch (error) {
+      console.error('No se pudo obtener ubicación precisa:', error);
+      throw error;
     }
   }
 }
