@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-SNAP_BASE="/home/ubuntu/env_snapshots"
+SNAP_BASE="/home/uds/env_snapshots"
 SNAP_DIR="${1:-${SNAP_BASE}/latest}"
 
 if [[ ! -d "${SNAP_DIR}" ]]; then
